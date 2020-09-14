@@ -11,14 +11,6 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  // password: {
-  //   type: String,
-  //   required: true,
-  // },
-  // register_date: {
-  //   type: Date,
-  //   default: moment().format("YYYY-MM-DD hh:mm:ss"),
-  // },
   comments: [
     {
       post_id: {

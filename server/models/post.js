@@ -2,14 +2,20 @@ import mongoose from "mongoose";
 import moment from "moment";
 
 const PostSchema = new mongoose.Schema({
-  title: {
+  bookTitle: {
     type: String,
     required: true,
     index: true,
   },
-  bookTitle: {
+  part: {
     type: String,
-    required: true,
+  },
+  page: {
+    type: Number,
+  },
+  imageUrl: {
+    type: String,
+    default: "https://source.unsplash.com/random/301x201",
   },
   contents: {
     type: String,
