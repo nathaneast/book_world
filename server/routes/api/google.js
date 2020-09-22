@@ -5,10 +5,10 @@ import isLoggedIn from "../../middleware/auth";
 
 const router = express.Router();
 
-router.get(
-  "/",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
+router.get("/", (req, res) => {
+  console.log("google/ api");
+  passport.authenticate("google", { scope: ["profile", "email"] });
+});
 
 router.get("/failed", (req, res) => res.send("you fail to log in"));
 

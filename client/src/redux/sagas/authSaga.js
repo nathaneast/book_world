@@ -1,24 +1,20 @@
-import axios from "axios";
 import { call, put, takeEvery, all, fork } from "redux-saga/effects";
-import {
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
-  LOGIN_FAILURE
-} from "../types";
+import axios from "axios";
 
-const loginUserAPI = (loginData) => {
-  console.log(loginData, "loginData");
-  return axios.post("api/auth", loginData);
-}
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from "../types";
 
-function* loginUser(action) {
+const loginUserAPI = () => {
+  return axios.get("api/google");
+};
+
+function* loginUser() {
   try {
-    const result = yield call(loginUserAPI, action.payload);
+    const result = yield call(loginUserAPI);
     console.log(result);
     yield put({
       type: LOGIN_SUCCESS,
       payload: result.data,
-    })
+    });
   } catch (e) {
     yield put({
       type: LOGIN_FAILURE,
@@ -32,7 +28,5 @@ function* watchLoginUser() {
 }
 
 export default function* authSaga() {
-  yield all([
-    fork(watchLoginUser),
-  ]);
+  yield all([fork(watchLoginUser)]);
 }

@@ -1,26 +1,22 @@
-import {
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
-  LOGIN_FAILURE
-} from "../types";
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from "../types";
 
 const initialState = {
   isAuthenticated: null,
   isLoading: false,
-  // user: "",
+  user: "",
   userId: "",
   userName: "",
   errorMsg: "",
-  successMsg: ""
-}
+  successMsg: "",
+};
 
-const authReducer = (state = initialState, action) =>  {
+const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_REQUEST:
       return {
         ...state,
         errorMsg: "",
-        isLoading: true
+        isLoading: true,
       };
     case LOGIN_SUCCESS:
       return {
@@ -29,7 +25,7 @@ const authReducer = (state = initialState, action) =>  {
         isLoading: false,
         userId: action.payload.user.id,
         userName: action.payload.user.name,
-        errorMsg: ""
+        errorMsg: "",
       };
     case LOGIN_FAILURE:
       return {
@@ -38,9 +34,11 @@ const authReducer = (state = initialState, action) =>  {
         userName: null,
         isAuthenticated: false,
         isLoading: false,
-        errorMsg: action.payload.data.msg
+        errorMsg: action.payload.data.msg,
       };
+    default:
+      return state;
   }
-}
+};
 
 export default authReducer;

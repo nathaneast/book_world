@@ -45,9 +45,11 @@ mongoose
   .catch((e) => console.log(e));
 
 // Use routes
-app.get("/", (req, res) => res.send("hi home"));
+app.get("/", (req, res) => res.send("home"));
 app.use("/api/post", postRoutes);
 app.use("/api/google", googleRoutes);
 // app.use("/api/user", userRoutes);
+
+//
 
 export default app;
