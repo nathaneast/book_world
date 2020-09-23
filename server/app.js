@@ -12,6 +12,17 @@ require("./config/passport-setup");
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_CALLBACK_URL } = config;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function (user, done) {
+  // User.findById(id, function (err, user) {
+  //   done(err, user);
+  // });
+  done(null, user);
+});
+
 passport.use(
   new GoogleStrategy(
     {
@@ -28,19 +39,6 @@ passport.use(
     }
   )
 );
-
-passport.serializeUser(function (user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function (user, done) {
-  // User.findById(id, function (err, user) {
-  //   done(err, user);
-  // });
-  return done(null, user);
-});
-
-//
 
 // Routes
 import postRoutes from "./routes/api/post";
@@ -78,7 +76,7 @@ mongoose
   .catch((e) => console.log(e));
 
 // Use routes
-app.get("/", (req, res) => res.send("home"));
+// app.get("/", (req, res) => res.send("home"));
 app.use("/api/post", postRoutes);
 // app.use("/api/google", googleRoutes);
 // app.use("/api/user", userRoutes);
@@ -95,9 +93,10 @@ const isLoggedIn = (req, res, next) => {
 
 app.get("/", (req, res) => res.send("not login"));
 app.get("/failed", (req, res) => res.send("fail ! ! "));
-app.get("/good", isLoggedIn, (req, res) =>
-  res.send(`welcome ${req.user.email}`)
-);
+app.get("/good", isLoggedIn, (req, res) => {
+  console.log(req);
+  res.send(`welcome ${req.user.displayName}`);
+});
 
 app.get(
   "/google",
