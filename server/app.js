@@ -9,37 +9,6 @@ import passport from "passport";
 import cookieSession from "cookie-session";
 require("./config/passport-setup");
 
-const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_CALLBACK_URL } = config;
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
-
-passport.serializeUser(function (user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function (user, done) {
-  // User.findById(id, function (err, user) {
-  //   done(err, user);
-  // });
-  done(null, user);
-});
-
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID:
-        "978776759513-dgui263895hd7f4o2vqgkaf1ianforve.apps.googleusercontent.com",
-      clientSecret: "OLAXCWz9uA45wkVtuhC0PlQH",
-      callbackURL: "http://localhost:7000/google/callback",
-    },
-    function (accessToken, refreshToken, profile, done) {
-      // User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      //   return done(err, user);
-      // });
-      return done(null, profile);
-    }
-  )
-);
-
 // Routes
 import postRoutes from "./routes/api/post";
 import googleRoutes from "./routes/api/google";
@@ -76,48 +45,9 @@ mongoose
   .catch((e) => console.log(e));
 
 // Use routes
-// app.get("/", (req, res) => res.send("home"));
+app.get("/", (req, res) => res.send("not login, home"));
 app.use("/api/post", postRoutes);
-// app.use("/api/google", googleRoutes);
+app.use("/api/google", googleRoutes);
 // app.use("/api/user", userRoutes);
 
-//
-//midleware
-const isLoggedIn = (req, res, next) => {
-  if (req.user) {
-    next();
-  } else {
-    res.sendStatus(401);
-  }
-};
-
-app.get("/", (req, res) => res.send("not login"));
-app.get("/failed", (req, res) => res.send("fail ! ! "));
-app.get("/good", isLoggedIn, (req, res) => {
-  console.log(req);
-  res.send(`welcome ${req.user.displayName}`);
-});
-
-app.get(
-  "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
-
-app.get(
-  "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
-  function (req, res) {
-    // Successful authentication, redirect home.
-    res.redirect("/good");
-  }
-);
-
-app.get("/logout", (req, res) => {
-  req.session = null;
-  req.logout();
-  res.redirect("/");
-});
-
 export default app;
-
-//login3

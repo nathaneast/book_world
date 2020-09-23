@@ -1,4 +1,4 @@
-import config from ".";
+import config from "./index";
 
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;

@@ -1,29 +1,39 @@
 import express from "express";
 import passport from "passport";
 
-import isLoggedIn from "../../middleware/auth";
-
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  console.log("google/ api");
-  passport.authenticate("google", { scope: ["profile", "email"] });
-});
+//midleware
+const isLoggedIn = (req, res, next) => {
+  if (req.user) {
+    next();
+  } else {
+    res.sendStatus(401);
+  }
+};
 
-router.get("/failed", (req, res) => res.send("you fail to log in"));
+// api/google
 
-router.get("/success", isLoggedIn, (req, res) =>
-  res.send(`login success ${req.user.displayName}`)
+router.get(
+  "/",
+  passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
 router.get(
   "/callback",
-  passport.authenticate("google", { failureRedirect: "/api/google/failed" }),
+  passport.authenticate("google", { failureRedirect: "failed" }),
   function (req, res) {
     // Successful authentication, redirect home.
-    res.redirect("/api/google/success");
+    res.redirect("good");
   }
 );
+
+router.get("/failed", (req, res) => res.send("fail ! ! "));
+
+router.get("/good", isLoggedIn, (req, res) => {
+  console.log(req);
+  res.send(`welcome ${req.user.displayName}`);
+});
 
 router.get("/logout", (req, res) => {
   req.session = null;
