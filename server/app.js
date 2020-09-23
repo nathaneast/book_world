@@ -109,7 +109,7 @@ app.get("/api/google/success", isLoggedIn, (req, res) =>
 );
 
 app.get(
-  "/callback",
+  "/api/google/callback",
   passport.authenticate("google", { failureRedirect: "/api/google/failed" }),
   function (req, res) {
     // Successful authentication, redirect home.
@@ -124,3 +124,5 @@ app.get("/api/google/logout", (req, res) => {
 });
 
 export default app;
+
+//login3
