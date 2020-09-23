@@ -9,11 +9,25 @@ import passport from "passport";
 import cookieSession from "cookie-session";
 require("./config/passport-setup");
 
-//
-// import config from ".";
-// const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_CALLBACK_URL } = config;
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID:
+        "978776759513-dgui263895hd7f4o2vqgkaf1ianforve.apps.googleusercontent.com",
+      clientSecret: "OLAXCWz9uA45wkVtuhC0PlQH",
+      callbackURL: "http://localhost:7000/google/callback",
+    },
+    function (accessToken, refreshToken, profile, done) {
+      // User.findOrCreate({ googleId: profile.id }, function (err, user) {
+      //   return done(err, user);
+      // });
+      return done(null, profile);
+    }
+  )
+);
 
 passport.serializeUser(function (user, done) {
   done(null, user);
@@ -25,22 +39,6 @@ passport.deserializeUser(function (user, done) {
   // });
   return done(null, user);
 });
-
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: GOOGLE_CLIENT_ID,
-      clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: GOOGLE_CALLBACK_URL,
-    },
-    function (accessToken, refreshToken, profile, done) {
-      // User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      //   return done(err, user);
-      // });
-      return done(null, profile);
-    }
-  )
-);
 
 //
 
@@ -95,29 +93,27 @@ const isLoggedIn = (req, res, next) => {
   }
 };
 
-app.get("/api/google", async (req, res) => {
-  const aaa = await passport.authenticate("google", {
-    scope: ["profile", "email"],
-  });
-  req.send(aaa);
-});
-
-app.get("/api/google/failed", (req, res) => res.send("you fail to log in"));
-
-app.get("/api/google/success", isLoggedIn, (req, res) =>
-  res.send(`login success ${req.user.displayName}`)
+app.get("/", (req, res) => res.send("not login"));
+app.get("/failed", (req, res) => res.send("fail ! ! "));
+app.get("/good", isLoggedIn, (req, res) =>
+  res.send(`welcome ${req.user.email}`)
 );
 
 app.get(
-  "/api/google/callback",
-  passport.authenticate("google", { failureRedirect: "/api/google/failed" }),
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+app.get(
+  "/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
   function (req, res) {
     // Successful authentication, redirect home.
-    res.redirect("/api/google/success");
+    res.redirect("/good");
   }
 );
 
-app.get("/api/google/logout", (req, res) => {
+app.get("/logout", (req, res) => {
   req.session = null;
   req.logout();
   res.redirect("/");
