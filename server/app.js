@@ -20,7 +20,12 @@ const { MONGO_URI } = config;
 app.use(hpp());
 app.use(helmet());
 
-app.use(cors({ rigin: true, credentials: true }));
+app.use(
+  cors({
+    rigin: true,
+    credentials: true,
+  })
+);
 app.use(morgan("dev"));
 
 app.use(express.json());

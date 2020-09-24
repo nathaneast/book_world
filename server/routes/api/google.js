@@ -4,6 +4,7 @@ import passport from "passport";
 const router = express.Router();
 
 //midleware
+
 const isLoggedIn = (req, res, next) => {
   if (req.user) {
     next();
@@ -13,11 +14,18 @@ const isLoggedIn = (req, res, next) => {
 };
 
 // api/google
+router.get("/", (req, res) => {
+  try {
+    passport.authenticate("google", { scope: ["profile", "email"] });
+  } catch (e) {
+    console.error(e);
+  }
+});
 
-router.get(
-  "/",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
+// router.get(
+//   "/",
+//   passport.authenticate("google", { scope: ["profile", "email"] })
+// );
 
 router.get(
   "/callback",
@@ -31,7 +39,7 @@ router.get(
 router.get("/failed", (req, res) => res.send("fail ! ! "));
 
 router.get("/good", isLoggedIn, (req, res) => {
-  console.log(req);
+  console.log(req.user, "gooooooooooooooood");
   res.send(`welcome ${req.user.displayName}`);
 });
 

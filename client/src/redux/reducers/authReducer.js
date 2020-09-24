@@ -34,7 +34,7 @@ const authReducer = (state = initialState, action) => {
         userName: null,
         isAuthenticated: false,
         isLoading: false,
-        errorMsg: action.payload.data.msg,
+        // errorMsg: action.payload.data.msg,
       };
     default:
       return state;
