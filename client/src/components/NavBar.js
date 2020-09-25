@@ -5,21 +5,14 @@ import { LOGIN_REQUEST } from "../redux/types";
 
 const NavBar = () => {
   const dispatch = useDispatch();
-
-  const handleLogin = () => {
-    dispatch({
-      type: LOGIN_REQUEST,
-    });
-  };
+  const { isAuthenticated, user } = useState((state) => state.auth);
 
   return (
     <>
       <div>
         <Container>
           <Nav>
-            <NavItem onClick={handleLogin}>
-              <NavLink href="#">google Login</NavLink>
-            </NavItem>
+            <NavItem onClick={handleLogin}></NavItem>
           </Nav>
         </Container>
       </div>

@@ -5,13 +5,10 @@ import hpp from "hpp";
 import helmet from "helmet";
 import cors from "cors";
 import morgan from "morgan";
-import passport from "passport";
-import cookieSession from "cookie-session";
-require("./config/passport-setup");
 
 // Routes
+import authRoutes from "./routes/api/auth";
 import postRoutes from "./routes/api/post";
-import googleRoutes from "./routes/api/google";
 
 const app = express();
 const { MONGO_URI } = config;
@@ -23,22 +20,11 @@ app.use(
   cors({
     rigin: true,
     credentials: true,
-    origin: "http://localhost:3000",
   })
 );
 app.use(morgan("dev"));
 
 app.use(express.json());
-
-app.use(
-  cookieSession({
-    name: "bookWorld-session",
-    keys: ["key1", "key2"],
-  })
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 mongoose
   .connect(MONGO_URI, {
@@ -51,7 +37,7 @@ mongoose
 
 // Use routes
 app.get("/", (req, res) => res.send("not login, home"));
+app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoutes);
-app.use("/api/google", googleRoutes);
 
 export default app;

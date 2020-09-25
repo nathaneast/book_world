@@ -11,11 +11,19 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  password: {
+    type: String,
+    required: true,
+  },
+  register_date: {
+    type: Date,
+    default: moment().format("YYYY-MM-DD hh:mm:ss"),
+  },
   comments: [
     {
       post_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "post",
+        ref: "posts",
       },
       comment_id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -23,10 +31,10 @@ const UserSchema = new mongoose.Schema({
       },
     },
   ],
-  post: [
+  posts: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "post",
+      ref: "posts",
     },
   ],
 });
