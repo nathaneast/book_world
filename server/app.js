@@ -12,7 +12,6 @@ require("./config/passport-setup");
 // Routes
 import postRoutes from "./routes/api/post";
 import googleRoutes from "./routes/api/google";
-// import userRoutes from "./routes/api/user";
 
 const app = express();
 const { MONGO_URI } = config;
@@ -24,6 +23,7 @@ app.use(
   cors({
     rigin: true,
     credentials: true,
+    origin: "http://localhost:3000",
   })
 );
 app.use(morgan("dev"));
@@ -53,6 +53,5 @@ mongoose
 app.get("/", (req, res) => res.send("not login, home"));
 app.use("/api/post", postRoutes);
 app.use("/api/google", googleRoutes);
-// app.use("/api/user", userRoutes);
 
 export default app;

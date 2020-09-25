@@ -14,18 +14,11 @@ const isLoggedIn = (req, res, next) => {
 };
 
 // api/google
-router.get("/", (req, res) => {
-  try {
-    passport.authenticate("google", { scope: ["profile", "email"] });
-  } catch (e) {
-    console.error(e);
-  }
-});
 
-// router.get(
-//   "/",
-//   passport.authenticate("google", { scope: ["profile", "email"] })
-// );
+router.get(
+  "/",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
 
 router.get(
   "/callback",
