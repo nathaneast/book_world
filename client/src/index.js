@@ -1,7 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
+
 import App from "./App";
-import "bootstrap/dist/css/bootstrap.min.css";
+import loadUser from "./components/auth/loaduser";
+
+loadUser();
 
 ReactDOM.render(<App />, document.getElementById("root"));
 

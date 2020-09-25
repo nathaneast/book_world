@@ -8,6 +8,7 @@ import morgan from "morgan";
 
 // Routes
 import authRoutes from "./routes/api/auth";
+import userRoutes from "./routes/api/user";
 import postRoutes from "./routes/api/post";
 
 const app = express();
@@ -38,6 +39,6 @@ mongoose
 // Use routes
 app.get("/", (req, res) => res.send("not login, home"));
 app.use("/api/auth", authRoutes);
-app.use("/api/post", postRoutes);
+app.use("/api/user", userRoutes);
 
 export default app;
