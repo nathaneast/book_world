@@ -9,9 +9,9 @@ import AppNavBar from "../components/AppNavBar";
 
 const MyRouter = () => (
   <>
+    <AppNavBar />
+    <Header />
     <Container id="main-body">
-      <Header />
-      <AppNavBar />
       <Switch>
         <Route path="/" exact component={PostCardList} />
       </Switch>
