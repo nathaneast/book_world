@@ -107,6 +107,10 @@ function* userLoading(action) {
   }
 }
 
+function* watchUserLoading() {
+  yield takeEvery(USER_LOADING_REQUEST, userLoading);
+}
+
 // LOGOUT
 
 function* logout() {
@@ -124,10 +128,6 @@ function* logout() {
 
 function* watchLogout() {
   yield takeEvery(LOGOUT_REQUEST, logout);
-}
-
-function* watchUserLoading() {
-  yield takeEvery(USER_LOADING_REQUEST, watchLogout);
 }
 
 export default function* authSaga() {

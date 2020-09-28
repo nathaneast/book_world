@@ -55,6 +55,14 @@ const AppNavBar = () => {
           </Button>
         </Form>
       </NavItem>
+      <NavItem>
+        <Form className="col mt-2">
+          <Link to="#"></Link>
+          <Button outline color="light" className="px-3" block>
+            <strong>글쓰기</strong>
+          </Button>
+        </Form>
+      </NavItem>
     </>
   );
 
