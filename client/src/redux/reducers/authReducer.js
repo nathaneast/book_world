@@ -32,6 +32,8 @@ const authReducer = (state = initialState, action) => {
     case LOGIN_REQUEST:
     case REGISTER_REQUEST:
     case LOGOUT_REQUEST:
+    case USER_LOADING_REQUEST:
+      // case POST_WRITE_REQUEST:
       return {
         ...state,
         errorMsg: "",
@@ -86,11 +88,6 @@ const authReducer = (state = initialState, action) => {
         ...state,
         errorMsg: "Clear Error Fail",
         previousMatchMsg: "Clear Error Fail",
-      };
-    case USER_LOADING_REQUEST:
-      return {
-        ...state,
-        isLoading: true,
       };
     case USER_LOADING_SUCCESS:
       return {

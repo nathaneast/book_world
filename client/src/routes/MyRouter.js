@@ -6,6 +6,7 @@ import PostCardList from "../components/PostCardList";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import AppNavBar from "../components/AppNavBar";
+import postWrite from "../routes/postWrite";
 
 const MyRouter = () => (
   <>
@@ -14,8 +15,9 @@ const MyRouter = () => (
     <Container id="main-body">
       <Switch>
         <Route path="/" exact component={PostCardList} />
+        <Route path="/postWrite" exact component={postWrite} />
+        <Redirect from="*" to="/" />
       </Switch>
-      <Redirect from="*" to="/" />
       <Footer />
     </Container>
   </>

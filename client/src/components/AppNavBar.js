@@ -34,6 +34,15 @@ const AppNavBar = () => {
 
   const authLink = (
     <>
+      <NavItem>
+        <Form className="col mt-2">
+          <Link to="postWrite">
+            <Button outline color="light" className="px-3" block>
+              <strong>글쓰기</strong>
+            </Button>
+          </Link>
+        </Form>
+      </NavItem>
       <NavItem className="d-flex justify-content-center">
         <Form className="col mt-2">
           {user && user.name ? (
@@ -49,18 +58,11 @@ const AppNavBar = () => {
       </NavItem>
       <NavItem>
         <Form className="col mt-2">
-          <Link onClick={onLogout} to="#"></Link>
-          <Button outline color="light" className="px-3" block>
-            <strong>Logout</strong>
-          </Button>
-        </Form>
-      </NavItem>
-      <NavItem>
-        <Form className="col mt-2">
-          <Link to="#"></Link>
-          <Button outline color="light" className="px-3" block>
-            <strong>글쓰기</strong>
-          </Button>
+          <Link to="#" onClick={onLogout}>
+            <Button outline color="light" className="px-3" block>
+              <strong>Logout</strong>
+            </Button>
+          </Link>
         </Form>
       </NavItem>
     </>

@@ -94,7 +94,6 @@ function* userLoading(action) {
   try {
     console.log(action, "userLoading");
     const result = yield call(userLoadingAPI, action.payload);
-    console.log("get user load", result);
     yield put({
       type: USER_LOADING_SUCCESS,
       payload: result.data,
