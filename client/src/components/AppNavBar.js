@@ -73,7 +73,7 @@ const AppNavBar = () => {
       <NavItem>
         <RegisterModal />
       </NavItem>
-      <NavItem>
+      <NavItem> 
         <LoginModal />
       </NavItem>
     </>

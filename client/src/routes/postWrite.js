@@ -1,20 +1,65 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Button } from "reactstrap";
+import { useDispatch } from "react-redux";
+import { Button, Form, FormGroup, Label, Input } from "reactstrap";
+import { SEARCH_BOOK_REQUEST } from "../redux/types";
 
-const postWrite = () => {
-  const [bookTitle, setBookTitle] = useState("");
-  const [modal, setModal] = useSelector(false);
+const PostWrite = () => {
+  const [modal, setModal] = useState(false);
+  const [form, setValues] = useState({
+    bookTitle: "",
+    bookImage: "",
+    bookCategory: "",
+  });
 
   const dispatch = useDispatch();
 
-  const handleToogle = () => {};
+  const onChange = (e) => {
+    setValues({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  const searchBookSubmit = (e) => {
+    e.preventDefault();
+    const { bookTitle } = form;
+    dispatch({
+      type: SEARCH_BOOK_REQUEST,
+      payload: bookTitle,
+    });
+  };
+
+  const searchBookTitle = (
+    <Form onSubmit={searchBookSubmit}>
+      <FormGroup>
+        <Label for="bookTitle">책 제목을 입력 해주세요</Label>
+        <Input
+          type="bookTitle"
+          name="bookTitle"
+          id="bookTitle"
+          placeholder="책 제목"
+          onChange={onChange}
+        />
+        <Button>책 검색</Button>
+      </FormGroup>
+    </Form>
+  );
+
+  const viewBookResult = (
+  <>
+
+  </>
+  );
 
   return (
     <div>
-      <Button onClick={handleToogle}>책 검색</Button>
+      <Form>
+        <FormGroup>
+          {form.bookTitme ? viewBookResult : searchBookTitle}
+        </FormGroup>
+      </Form>
     </div>
   );
 };
 
-export default postWrite;
+export default PostWrite;

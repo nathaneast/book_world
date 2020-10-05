@@ -6,7 +6,7 @@ import PostCardList from "../components/PostCardList";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import AppNavBar from "../components/AppNavBar";
-import postWrite from "../routes/postWrite";
+import postWrite from "./PostWrite";
 
 const MyRouter = () => (
   <>
