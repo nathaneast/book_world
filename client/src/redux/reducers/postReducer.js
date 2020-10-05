@@ -1,7 +1,7 @@
 import {
-SEARCH_BOOK_REQUEST,
-SEARCH_BOOK_SUCCESS,
-SEARCH_BOOK_FAILURE,
+  SEARCH_BOOK_REQUEST,
+  SEARCH_BOOK_SUCCESS,
+  SEARCH_BOOK_FAILURE,
 } from "../types";
 
 const initialState = {
@@ -16,7 +16,7 @@ const initialState = {
   title: "",
   searchTerm: "",
   searchResult: "",
-  // searchBookTerm: "",
+  searchBookTerm: "",
   searchBookResult: "",
 };
 
@@ -25,7 +25,7 @@ export default function (state = initialState, action) {
     case SEARCH_BOOK_REQUEST:
       return {
         ...state,
-        // searchBookTerm: action.payload,
+        searchBookTerm: action.payload,
         loading: true,
       };
     case SEARCH_BOOK_SUCCESS:
@@ -42,7 +42,7 @@ export default function (state = initialState, action) {
         error: action.payload,
         loading: false,
       };
-      default:
-        return state;
+    default:
+      return state;
   }
 }
