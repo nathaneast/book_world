@@ -22,7 +22,7 @@ const PostWrite = () => {
 
   const dispatch = useDispatch();
 
-  const { searchBookTerm } = useSelector((state) => state.post);
+  const { searchBookTerm, searchBookResult } = useSelector((state) => state.post);
 
   const onChange = (e) => {
     setValues({
@@ -62,13 +62,13 @@ const PostWrite = () => {
     </div>
   );
 
-  const viewBookResult = <></>;
+  const viewBookResult = <div>viewBookResult</div>;
 
   return (
     <div>
       <Form>
         <FormGroup>
-          {searchBookTerm ? viewBookResult : searchBookTitle}
+      {searchBookResult ? viewBookResult : searchBookTitle}
         </FormGroup>
       </Form>
       <Modal isOpen={modal} toggle={toggle}>

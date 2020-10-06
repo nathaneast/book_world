@@ -31,14 +31,14 @@ export default function (state = initialState, action) {
     case SEARCH_BOOK_SUCCESS:
       return {
         ...state,
-        // searchBookTerm: "",
+        searchBookTerm: "",
         searchBookResult: action.payload,
         loading: false,
       };
     case SEARCH_BOOK_FAILURE:
       return {
         ...state,
-        // searchBook: "",
+        searchBook: "",
         error: action.payload,
         loading: false,
       };
