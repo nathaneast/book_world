@@ -1,19 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Modal,
-  ModalHeader,
-  ModalBody,
-} from "reactstrap";
+import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import { SEARCH_BOOK_REQUEST } from "../redux/types";
 
 const PostWrite = () => {
-  const [modal, setModal] = useState(false);
   const [form, setValues] = useState({
     bookTitle: "",
     bookImage: "",
@@ -22,7 +12,9 @@ const PostWrite = () => {
 
   const dispatch = useDispatch();
 
-  const { searchBookTerm, searchBookResult } = useSelector((state) => state.post);
+  const { searchBookResult, selectedSearchBook } = useSelector(
+    (state) => state.post
+  );
 
   const onChange = (e) => {
     setValues({
@@ -31,14 +23,15 @@ const PostWrite = () => {
     });
   };
 
-  const toggle = () => {
-    setModal(!modal);
-  };
+  // const toggle = () => {
+  //   setModal(!modal);
+  // };
 
-  const modalHandler = () => {
+  const searchBookSubmit = (e) => {
+    e.preventDefault();
     const { bookTitle } = form;
+    toggle();
     if (bookTitle) {
-      toggle();
       dispatch({
         type: SEARCH_BOOK_REQUEST,
         payload: bookTitle,
@@ -48,33 +41,32 @@ const PostWrite = () => {
     }
   };
 
-  const searchBookTitle = (
-    <div>
-      <Label for="bookTitle">책 제목을 입력 해주세요</Label>
-      <Input
-        type="bookTitle"
-        name="bookTitle"
-        id="bookTitle"
-        placeholder="책 제목"
-        onChange={onChange}
-      />
-      <Button onClick={modalHandler}>책 검색</Button>
-    </div>
+  const searchBook = (
+    <Form onSubmit={searchBookSubmit}>
+      <FormGroup>
+        <Label for="bookTitle">책 제목을 입력 해주세요</Label>
+        <Input
+          type="bookTitle"
+          name="bookTitle"
+          id="bookTitle"
+          placeholder="책 제목"
+          onChange={onChange}
+        />
+        <Button>책 검색</Button>
+      </FormGroup>
+    </Form>
   );
 
-  const viewBookResult = <div>viewBookResult</div>;
+  const postWriteForm = (
+    <Form>
+      <FormGroup></FormGroup>
+    </Form>
+  );
 
   return (
     <div>
-      <Form>
-        <FormGroup>
-      {searchBookResult ? viewBookResult : searchBookTitle}
-        </FormGroup>
-      </Form>
-      <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader>{form.bookTitle}</ModalHeader>
-        <ModalBody>ModalCard</ModalBody>
-      </Modal>
+      {selectedSearchBook ? postWriteForm : searchBook}
+      {searchBookResult && <BookCardList />}
     </div>
   );
 };

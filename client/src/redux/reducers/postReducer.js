@@ -18,6 +18,7 @@ const initialState = {
   searchResult: "",
   searchBookTerm: "",
   searchBookResult: "",
+  selectedSearchBook: "",
 };
 
 export default function (state = initialState, action) {
@@ -38,7 +39,7 @@ export default function (state = initialState, action) {
     case SEARCH_BOOK_FAILURE:
       return {
         ...state,
-        searchBook: "",
+        searchBookTerm: "",
         error: action.payload,
         loading: false,
       };
