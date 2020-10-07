@@ -4,6 +4,9 @@ import {
   SEARCH_BOOK_REQUEST,
   SEARCH_BOOK_SUCCESS,
   SEARCH_BOOK_FAILURE,
+  SELECT_BOOK_REQUEST,
+  SELECT_BOOK_SUCCESS,
+  SELECT_BOOK_FAILURE,
 } from "../types";
 import kakaoAPI from "../../kakaoAPI";
 
@@ -35,6 +38,26 @@ function* watchSearchBook() {
   yield takeEvery(SEARCH_BOOK_REQUEST, searchBook);
 }
 
+// Select Book
+
+function* selectBook(action) {
+  try {
+    yield put({
+      type: SELECT_BOOK_SUCCESS,
+      payload: action.payload,
+    });
+  } catch (e) {
+    yield put({
+      type: SELECT_BOOK_FAILURE,
+      payload: e.response,
+    });
+  }
+}
+
+function* watchSelectBook() {
+  yield takeEvery(SELECT_BOOK_REQUEST, selectBook);
+}
+
 export default function* postSaga() {
-  yield all([fork(watchSearchBook)]);
+  yield all([fork(watchSearchBook), fork(watchSelectBook)]);
 }

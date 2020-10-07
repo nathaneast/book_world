@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ModalHeader, ModalBody, Card, CardImg } from "reactstrap";
+import { ModalHeader, Modal, ModalBody, Card, CardImg, CardTitle, Row } from "reactstrap";
+import { SELECT_BOOK_REQUEST } from "../../redux/types";
 
 const BookCardList = () => {
-  const [modal, setModal] = useState(true);
+  const [modal, setModal] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -11,22 +12,41 @@ const BookCardList = () => {
     (state) => state.post
   );
 
+  useEffect(() => {
+    toggle();
+  }, [searchBookResult]);   
+
   const toggle = () => {
     setModal(!modal);
   };
 
-  const books = searchBookResult.map((book) => (
-    <Card key={book.isbn}>
-      <CardImg alt="카드이미지" src={book.thumbnail} />
-    </Card>
-  ));
+  const onClick = (e) => {
+    const currentBookKey = Number(e.currentTarget.dataset.key);
+    dispatch({
+      type: SELECT_BOOK_REQUEST,
+      payload: searchBookResult[currentBookKey]
+    });
+  };
 
-  const emptyBook = <div>책 없다</div>;
+  // Card 정렬, hover effect 작업 필요
+  const books = (
+    searchBookResult.map((book, index) => (
+    <Card key={book.isbn} className="m-2" data-key={index} onClick={onClick}>
+      <CardImg src={book.thumbnail} width="150px" height="220px" />
+      <CardTitle>
+        {book.title.length > 10 ? `${book.title.substr(0,10)}..` : book.title.length}
+      </CardTitle>
+    </Card>
+  )));
+
+  const emptyBook = <h1>책 없다</h1>;
 
   return (
-    <Modal isOpen={modal} toggle={toggle}>
+    <Modal isOpen={modal} toggle={toggle} className="modal-lg">
       <ModalHeader>{searchBookTerm}</ModalHeader>
-      <ModalBody>{searchBookResult.length ? books : emptyBook}</ModalBody>
+      <ModalBody>
+        <Row>{searchBookResult.length ? books : emptyBook}</Row>
+      </ModalBody>
     </Modal>
   );
 };

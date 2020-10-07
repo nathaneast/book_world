@@ -2,6 +2,9 @@ import {
   SEARCH_BOOK_REQUEST,
   SEARCH_BOOK_SUCCESS,
   SEARCH_BOOK_FAILURE,
+  SELECT_BOOK_REQUEST,
+  SELECT_BOOK_SUCCESS,
+  SELECT_BOOK_FAILURE,
 } from "../types";
 
 const initialState = {
@@ -32,15 +35,25 @@ export default function (state = initialState, action) {
     case SEARCH_BOOK_SUCCESS:
       return {
         ...state,
-        searchBookTerm: "",
         searchBookResult: action.payload,
         loading: false,
       };
     case SEARCH_BOOK_FAILURE:
+    case SELECT_BOOK_FAILURE:
       return {
         ...state,
-        searchBookTerm: "",
         error: action.payload,
+        loading: false,
+      };
+    case SELECT_BOOK_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case SELECT_BOOK_SUCCESS:
+      return {
+        ...state,
+        selectedSearchBook: action.payload,
         loading: false,
       };
     default:

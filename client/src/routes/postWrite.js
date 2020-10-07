@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
+
+import BookCardList from "../components/post/BookCardList";
 import { SEARCH_BOOK_REQUEST } from "../redux/types";
 
 const PostWrite = () => {
@@ -23,14 +25,9 @@ const PostWrite = () => {
     });
   };
 
-  // const toggle = () => {
-  //   setModal(!modal);
-  // };
-
   const searchBookSubmit = (e) => {
     e.preventDefault();
     const { bookTitle } = form;
-    toggle();
     if (bookTitle) {
       dispatch({
         type: SEARCH_BOOK_REQUEST,
