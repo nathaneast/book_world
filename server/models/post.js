@@ -7,11 +7,21 @@ const PostSchema = new mongoose.Schema({
     required: true,
     index: true,
   },
+  title: {
+    type: String,
+    required: true,
+  },
   part: {
     type: String,
   },
   page: {
     type: Number,
+  },
+  authors: {
+    type: String,
+  },
+  publisher: {
+    type: String,
   },
   imageUrl: {
     type: String,

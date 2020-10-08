@@ -8,13 +8,13 @@ const BookCardList = () => {
 
   const dispatch = useDispatch();
 
-  const { searchBookResult, searchBookTerm } = useSelector(
+  const { searchBookTerm, searchBookResult, selectedSearchBook } = useSelector(
     (state) => state.post
   );
 
   useEffect(() => {
     toggle();
-  }, [searchBookResult]);   
+  }, [searchBookResult, selectedSearchBook]);   
 
   const toggle = () => {
     setModal(!modal);
@@ -28,7 +28,7 @@ const BookCardList = () => {
     });
   };
 
-  // Card 정렬, hover effect 작업 필요
+  // Card 레이아웃 , hover 작업 필요
   const books = (
     searchBookResult.map((book, index) => (
     <Card key={book.isbn} className="m-2" data-key={index} onClick={onClick}>

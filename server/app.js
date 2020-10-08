@@ -40,5 +40,6 @@ mongoose
 app.get("/", (req, res) => res.send("not login, home"));
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/post", postRoutes);
 
 export default app;

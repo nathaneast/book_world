@@ -5,6 +5,9 @@ import {
   SELECT_BOOK_REQUEST,
   SELECT_BOOK_SUCCESS,
   SELECT_BOOK_FAILURE,
+  POST_UPLOADING_REQUEST,
+  POST_UPLOADING_SUCCESS,
+  POST_UPLOADING_FAILURE
 } from "../types";
 
 const initialState = {
@@ -46,6 +49,7 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case SELECT_BOOK_REQUEST:
+    case POST_UPLOADING_REQUEST:
       return {
         ...state,
         loading: true,
@@ -54,6 +58,18 @@ export default function (state = initialState, action) {
       return {
         ...state,
         selectedSearchBook: action.payload,
+        loading: false,
+      };
+    case POST_UPLOADING_SUCCESS:
+      return {
+        ...state,
+        // selectedSearchBook: action.payload,
+        loading: false,
+      };
+    case POST_UPLOADING_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
         loading: false,
       };
     default:
