@@ -16,7 +16,12 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  console.log(req.params, 'req.params')
+  try {
+    const post = await Post.findById(req.params.id)
+    .populate("creator")
+  } catch (e) {
+
+  }
 });
 
 router.post("/", auth, async (req, res) => {
