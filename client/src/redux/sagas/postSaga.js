@@ -63,15 +63,24 @@ function* watchSelectBook() {
 
 // Uploading Book
 
-const uploadingBookAPI = (post) => {
-  console.log(post, "uploadingBookAPI");
-  return axios.post("api/post", post);
+const uploadingPostAPI = (body) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const token = body.token;
+  if (token) {
+    config.headers["x-auth-token"] = token;
+  }
+  console.log(body, "uploadingPostAPI body");
+  return axios.post("api/post", body, config);
 };
 
-function* uploadingBook(action) {
+function* uploadingPost(action) {
   try {
-    console.log(action, "uploadingBook");
-    const result = yield call(uploadingBookAPI, action.payload);
+    console.log(action, "uploadingPost");
+    const result = yield call(uploadingPostAPI, action.payload);
     console.log(result, "result post 값");
     yield put({
       type: POST_UPLOADING_SUCCESS,
@@ -85,10 +94,10 @@ function* uploadingBook(action) {
   }
 }
 
-function* watchUploadingBook() {
-  yield takeEvery(POST_UPLOADING_REQUEST, uploadingBook);
+function* watchUploadingPost() {
+  yield takeEvery(POST_UPLOADING_REQUEST, uploadingPost);
 }
 
 export default function* postSaga() {
-  yield all([fork(watchSearchBook), fork(watchSelectBook), fork(watchUploadingBook)]);
+  yield all([fork(watchSearchBook), fork(watchSelectBook), fork(watchUploadingPost)]);
 }

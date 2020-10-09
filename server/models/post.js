@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 import moment from "moment";
 
 const PostSchema = new mongoose.Schema({
+  creator: {
+    type: String,
+    require: true,
+  },
   bookTitle: {
     type: String,
     required: true,
@@ -18,7 +22,7 @@ const PostSchema = new mongoose.Schema({
     type: Number,
   },
   authors: {
-    type: String,
+    type: Array,
   },
   publisher: {
     type: String,

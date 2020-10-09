@@ -39,6 +39,7 @@ const BookCardList = () => {
     </Card>
   )));
 
+  // 모달 꾸미기
   const emptyBook = <h1>책 없다</h1>;
 
   return (

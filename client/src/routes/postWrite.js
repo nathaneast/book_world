@@ -47,7 +47,10 @@ const PostWrite = () => {
     if (!contents || !category) {
       alert('빈 값을 입력 해주세요');
     }
-    const post = {
+    const token = localStorage.getItem("token");
+
+    const body = {
+      token,
       title,
       category,
       part,
@@ -60,7 +63,7 @@ const PostWrite = () => {
     }; 
     dispatch({
       type: POST_UPLOADING_REQUEST,
-      payload: post
+      payload: body
     });
   };
 
@@ -138,7 +141,7 @@ const PostWrite = () => {
             id="contents"
             placeholder="느낀점"
             onChange={onChange}
-            width="120px"
+            height="120px"
           />
           <Button>글쓰기</Button>
         </FormGroup>
