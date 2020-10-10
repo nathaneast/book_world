@@ -18,9 +18,15 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id)
-    .populate("creator")
+      .populate("creator", "email name")
+      .populate("category", "categoryName");
+        post.views += 1;
+        post.save();
+        console.log(post, "post id");
+        res.json(post);
   } catch (e) {
-
+    console.error(e);
+    next(e);
   }
 });
 

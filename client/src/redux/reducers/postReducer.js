@@ -17,7 +17,7 @@ const initialState = {
   postCount: "",
   loading: false,
   error: "",
-  creatorId: "",
+  // creatorId: "",
   categoryFindResult: "",
   title: "",
   searchTerm: "",
@@ -63,8 +63,11 @@ export default function (state = initialState, action) {
     case POST_UPLOADING_SUCCESS:
       return {
         ...state,
-        // selectedSearchBook: action.payload,
+        postDetail: action.payload,
         loading: false,
+        searchBookTerm: "",
+        searchBookResult: "",
+        selectedSearchBook: "",
       };
     case POST_UPLOADING_FAILURE:
       return {

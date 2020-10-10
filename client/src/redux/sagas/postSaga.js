@@ -1,4 +1,5 @@
 import { call, put, takeEvery, all, fork } from "redux-saga/effects";
+import { push } from "connected-react-router";
 import axios from "axios";
 import {
   SEARCH_BOOK_REQUEST,
@@ -86,11 +87,13 @@ function* uploadingPost(action) {
       type: POST_UPLOADING_SUCCESS,
       payload: result.data,
     });
+    yield put(push(`/post/${result.data._id}`));
   } catch (e) {
     yield put({
       type: POST_UPLOADING_FAILURE,
       payload: e.response,
     });
+    yield put(push("/"));
   }
 }
 

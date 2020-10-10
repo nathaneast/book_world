@@ -48,7 +48,6 @@ const PostWrite = () => {
       alert('빈 값을 입력 해주세요');
     }
     const token = localStorage.getItem("token");
-
     const body = {
       token,
       title,
