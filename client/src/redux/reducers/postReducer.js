@@ -7,7 +7,10 @@ import {
   SELECT_BOOK_FAILURE,
   POST_UPLOADING_REQUEST,
   POST_UPLOADING_SUCCESS,
-  POST_UPLOADING_FAILURE
+  POST_UPLOADING_FAILURE,
+  POST_LOADING_REQUEST,
+  POST_LOADING_SUCCESS,
+  POST_LOADING_FAILURE,
 } from "../types";
 
 const initialState = {
@@ -50,6 +53,7 @@ export default function (state = initialState, action) {
       };
     case SELECT_BOOK_REQUEST:
     case POST_UPLOADING_REQUEST:
+    case POST_LOADING_REQUEST:
       return {
         ...state,
         loading: true,
@@ -70,6 +74,19 @@ export default function (state = initialState, action) {
         selectedSearchBook: "",
       };
     case POST_UPLOADING_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+    case POST_LOADING_SUCCESS:
+      return {
+        ...state,
+        posts: [state.posts, ...action.payload.postFindResult],
+        postCount: action.payload.postCount,
+        loading: false,
+      };
+    case POST_LOADING_FAILURE:
       return {
         ...state,
         error: action.payload,

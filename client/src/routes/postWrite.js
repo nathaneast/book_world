@@ -1,6 +1,17 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Form, FormGroup, Label, Input, Card, CardTitle, CardSubtitle, CardText, CardImg } from "reactstrap";
+import {
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Card,
+  CardTitle,
+  CardSubtitle,
+  CardText,
+  CardImg,
+} from "reactstrap";
 
 import BookCardList from "../components/post/BookCardList";
 import { SEARCH_BOOK_REQUEST, POST_UPLOADING_REQUEST } from "../redux/types";
@@ -45,7 +56,7 @@ const PostWrite = () => {
     e.preventDefault();
     const { title, category, part, page, contents } = form;
     if (!contents || !category) {
-      alert('빈 값을 입력 해주세요');
+      alert("빈 값을 입력 해주세요");
     }
     const token = localStorage.getItem("token");
     const body = {
@@ -59,10 +70,10 @@ const PostWrite = () => {
       imageUrl: selectedSearchBook.thumbnail,
       authors: selectedSearchBook.authors,
       publisher: selectedSearchBook.publisher,
-    }; 
+    };
     dispatch({
       type: POST_UPLOADING_REQUEST,
-      payload: body
+      payload: body,
     });
   };
 
@@ -78,7 +89,7 @@ const PostWrite = () => {
         />
         <Button>책 검색</Button>
       </FormGroup>
-    </Form>  
+    </Form>
   );
 
   // 컨텐츠 길이 줄이기, 이미지 줄이기, 작가 출판사 레이아웃
@@ -108,7 +119,12 @@ const PostWrite = () => {
             onChange={onChange}
           />
           <Label for="category">책 카테고리를 골라 주세요</Label>
-          <Input type="select" name="category" id="category" onChange={onChange}>
+          <Input
+            type="select"
+            name="category"
+            id="category"
+            onChange={onChange}
+          >
             <option></option>
             <option>문학</option>
             <option>경제/경영/자기계발</option>
@@ -120,12 +136,7 @@ const PostWrite = () => {
             <option>미분류</option>
           </Input>
           <Label for="part">어떤 파트 인가요 ?</Label>
-          <Input
-            name="part"
-            id="part"
-            placeholder="파트"
-            onChange={onChange}
-          />
+          <Input name="part" id="part" placeholder="파트" onChange={onChange} />
           <Label for="page">어느 페이지 인가요 ?</Label>
           <Input
             name="page"
@@ -147,7 +158,7 @@ const PostWrite = () => {
       </Form>
     </>
   );
-  
+
   return (
     <div>
       {selectedSearchBook ? postWriteForm : searchBook}

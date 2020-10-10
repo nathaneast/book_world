@@ -11,6 +11,9 @@ import {
   POST_UPLOADING_REQUEST,
   POST_UPLOADING_SUCCESS,
   POST_UPLOADING_FAILURE,
+  POST_LOADING_REQUEST,
+  POST_LOADING_SUCCESS,
+  POST_LOADING_FAILURE,
 } from "../types";
 import kakaoAPI from "../../kakaoAPI";
 
@@ -100,7 +103,38 @@ function* uploadingPost(action) {
 function* watchUploadingPost() {
   yield takeEvery(POST_UPLOADING_REQUEST, uploadingPost);
 }
+// Uploading Book
+
+const loadingPostAPI = (payload) => {
+  return axios.get(`/api/post/skip/${payload}`);
+};
+
+function* loadingPost(action) {
+  try {
+    console.log(action, "loadingPost");
+    const result = yield call(loadingPostAPI, action.payload);
+    console.log(result, "loadingPost 결과 값");
+    yield put({
+      type: POST_LOADING_SUCCESS,
+      payload: result.data,
+    });
+  } catch (e) {
+    yield put({
+      type: POST_LOADING_FAILURE,
+      payload: e.response,
+    });
+  }
+}
+
+function* watchLoadingPost() {
+  yield takeEvery(POST_LOADING_REQUEST, loadingPost);
+}
 
 export default function* postSaga() {
-  yield all([fork(watchSearchBook), fork(watchSelectBook), fork(watchUploadingPost)]);
+  yield all([
+    fork(watchSearchBook),
+    fork(watchSelectBook),
+    fork(watchUploadingPost),
+    fork(watchLoadingPost),
+  ]);
 }

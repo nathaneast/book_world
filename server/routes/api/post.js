@@ -15,15 +15,30 @@ router.get("/", async (req, res) => {
   res.json(postFindResult);
 });
 
+router.get("/skip/:skip", async (req, res) => {
+  try {
+    const postCount = await Post.countDocuments();
+    const postFindResult = await Post.find()
+      .skip(Number(req.params.skip))
+      .limit(6)
+      .sort({ date: -1 });
+    const result = { postCount, postFindResult };
+    res.json(result);
+  } catch (e) {
+    console.error(e);
+    res.json({ msg: "더 이상 포스트가 없습니다" });
+  }
+});
+
 router.get("/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id)
       .populate("creator", "email name")
       .populate("category", "categoryName");
-        post.views += 1;
-        post.save();
-        console.log(post, "post id");
-        res.json(post);
+    post.views += 1;
+    post.save();
+    console.log(post, "post id");
+    res.json(post);
   } catch (e) {
     console.error(e);
     next(e);
@@ -33,7 +48,17 @@ router.get("/:id", async (req, res) => {
 router.post("/", auth, async (req, res) => {
   try {
     console.log("req.body", req.body);
-    const { title, category, part, page, contents, bookTitle, imageUrl, authors, publisher } = req.body;
+    const {
+      title,
+      category,
+      part,
+      page,
+      contents,
+      bookTitle,
+      imageUrl,
+      authors,
+      publisher,
+    } = req.body;
     const newPost = await Post.create({
       creator: req.user.id,
       title,
@@ -46,12 +71,12 @@ router.post("/", auth, async (req, res) => {
       publisher,
       date: moment().format("YYYY-MM-DD hh:mm:ss"),
     });
-    console.log(req.user, "req user!!!")
+    console.log(req.user, "req user!!!");
 
     const findCategory = await Category.findOne({
       categoryName: category,
     });
-    console.log(findCategory, 'findCategory');
+    console.log(findCategory, "findCategory");
 
     if (findCategory) {
       await Post.findByIdAndUpdate(newPost._id, {
@@ -60,7 +85,7 @@ router.post("/", auth, async (req, res) => {
       await Category.findByIdAndUpdate(findCategory._id, {
         $push: {
           posts: newPost._id,
-        }
+        },
       });
     } else {
       const newCategory = await Category.create({
@@ -72,14 +97,14 @@ router.post("/", auth, async (req, res) => {
       await Category.findByIdAndUpdate(newCategory._id, {
         $push: {
           posts: newPost._id,
-        }
+        },
       });
     }
 
     await User.findByIdAndUpdate(req.user.id, {
       $push: {
         posts: newPost._id,
-      }
+      },
     });
 
     return res.redirect(`/api/post/${newPost._id}`);
