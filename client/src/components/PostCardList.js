@@ -1,8 +1,16 @@
-import Helmet from "helmet";
+// import Helmet from "helmet";
+import { push } from "connected-react-router";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Row } from "reactstrap";
-import { POST_LOADING_REQUEST } from "../redux/types";
+import {
+  Row,
+  Card,
+  CardImg,
+  CardTitle,
+  CardSubtitle,
+  CardBody,
+} from "reactstrap";
+import { POST_LOADING_REQUEST, POST_DETAIL_REQUEST } from "../redux/types";
 
 const PostCardList = () => {
   const dispatch = useDispatch();
@@ -16,15 +24,36 @@ const PostCardList = () => {
     });
   }, [dispatch]);
 
+  const onClick = (e) => {
+    const currentPostKey = Number(e.currentTarget.dataset.key);
+    dispatch({
+      type: POST_DETAIL_REQUEST,
+      payload: posts[currentPostKey],
+    });
+  };
+
   console.log(posts, "posts");
 
-  const postCards = <div>postCards</div>;
+  const postCards = posts.map((post, index) => (
+    <Card key={index} className="m-2" data-key={index} onClick={onClick}>
+      <CardImg src={post.imageUrl} width="150px" height="220px" />
+      <CardBody>
+        <CardTitle>
+          {post.bookTitle.length > 10
+            ? `${post.bookTitle.substr(0, 10)}..`
+            : post.bookTitle}
+        </CardTitle>
+        <CardSubtitle>{post.title}</CardSubtitle>
+      </CardBody>
+    </Card>
+  ));
+
+  const emptyPostCards = <div>글이 없습니다.</div>;
 
   // 로딩 넣어야함
   return (
     <>
-      <Helmet title="Home" />
-      <Row>{posts ? postCards : ""}</Row>
+      <Row>{posts.length ? postCards : emptyPostCards}</Row>
     </>
   );
 };

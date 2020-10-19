@@ -14,6 +14,9 @@ import {
   POST_LOADING_REQUEST,
   POST_LOADING_SUCCESS,
   POST_LOADING_FAILURE,
+  POST_DETAIL_REQUEST,
+  POST_DETAIL_SUCCESS,
+  POST_DETAIL_FAILURE,
 } from "../types";
 import kakaoAPI from "../../kakaoAPI";
 
@@ -65,7 +68,7 @@ function* watchSelectBook() {
   yield takeEvery(SELECT_BOOK_REQUEST, selectBook);
 }
 
-// Uploading Book
+// Uploading Post
 
 const uploadingPostAPI = (body) => {
   const config = {
@@ -103,7 +106,8 @@ function* uploadingPost(action) {
 function* watchUploadingPost() {
   yield takeEvery(POST_UPLOADING_REQUEST, uploadingPost);
 }
-// Uploading Book
+
+// Loading Post
 
 const loadingPostAPI = (payload) => {
   return axios.get(`/api/post/skip/${payload}`);
@@ -129,6 +133,27 @@ function* loadingPost(action) {
 function* watchLoadingPost() {
   yield takeEvery(POST_LOADING_REQUEST, loadingPost);
 }
+// post Detail
+
+function* postDetail(action) {
+  try {
+    console.log(action, "postDetail");
+    yield put({
+      type: POST_DETAIL_SUCCESS,
+      payload: action.payload,
+    });
+    yield put(push(`/post/${action.payload._id}`));
+  } catch (e) {
+    yield put({
+      type: POST_DETAIL_FAILURE,
+      payload: e.response,
+    });
+  }
+}
+
+function* watchPostDetail() {
+  yield takeEvery(POST_DETAIL_REQUEST, postDetail);
+}
 
 export default function* postSaga() {
   yield all([
@@ -136,5 +161,6 @@ export default function* postSaga() {
     fork(watchSelectBook),
     fork(watchUploadingPost),
     fork(watchLoadingPost),
+    fork(watchPostDetail),
   ]);
 }

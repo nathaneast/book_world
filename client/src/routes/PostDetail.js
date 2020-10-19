@@ -4,9 +4,23 @@ import { Col, Container, Row } from "reactstrap";
 
 const PostDetail = () => {
   const { postDetail } = useSelector((state) => state.post);
-  const { authors, bookTitle, category, comments, contents, creator, date, imageUrl, page, part, publisher, title, views } = postDetail;
+  const {
+    authors,
+    bookTitle,
+    category,
+    comments,
+    contents,
+    creator,
+    date,
+    imageUrl,
+    page,
+    part,
+    publisher,
+    title,
+    views,
+  } = postDetail;
 
-  console.log(postDetail)
+  console.log(postDetail);
 
   /* 
   마크업 하기, map key값들 수정
