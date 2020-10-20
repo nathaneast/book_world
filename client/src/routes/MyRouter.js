@@ -20,8 +20,8 @@ const MyRouter = () => (
         <Route path="/post/:id" exact component={PostDetail} />
         <Redirect from="*" to="/" />
       </Switch>
-      <Footer />
     </Container>
+    <Footer />
   </>
 );
 

@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import moment from "moment";
 
 const CategorySchema = new mongoose.Schema({
   categoryName: {
