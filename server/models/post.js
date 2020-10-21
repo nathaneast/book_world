@@ -2,10 +2,6 @@ import mongoose from "mongoose";
 import moment from "moment";
 
 const PostSchema = new mongoose.Schema({
-  creator: {
-    type: String,
-    require: true,
-  },
   bookTitle: {
     type: String,
     required: true,
@@ -20,6 +16,10 @@ const PostSchema = new mongoose.Schema({
   },
   page: {
     type: Number,
+  },
+  creator: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
   },
   authors: {
     type: Array,
@@ -53,10 +53,6 @@ const PostSchema = new mongoose.Schema({
       ref: "comment",
     },
   ],
-  creator: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
-  },
 });
 
 const Post = mongoose.model("post", PostSchema);

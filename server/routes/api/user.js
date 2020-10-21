@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
     if (!users) throw Error("No users");
     res.status(200).json(users);
   } catch (e) {
-    console.log(e);
+    // console.log(e);
     res.status(400).json({ msg: e.message });
   }
 });
@@ -82,7 +82,7 @@ router.post("/", (req, res) => {
 router.post("/:userName/profile", auth, async (req, res) => {
   try {
     const { previousPassword, password, rePassword, userId } = req.body;
-    console.log(req.body, "userName Profile");
+    // console.log(req.body, "userName Profile");
     const result = await User.findById(userId, "password");
 
     bcrypt.compare(previousPassword, result.password).then((isMatch) => {
@@ -110,7 +110,7 @@ router.post("/:userName/profile", auth, async (req, res) => {
       }
     });
   } catch (e) {
-    console.log(e);
+    // console.log(e);
   }
 });
 

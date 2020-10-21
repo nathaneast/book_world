@@ -1,5 +1,5 @@
 // import Helmet from "helmet";
-import { push } from "connected-react-router";
+// import { push } from "connected-react-router";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -28,7 +28,7 @@ const PostCardList = () => {
     const currentPostKey = Number(e.currentTarget.dataset.key);
     dispatch({
       type: POST_DETAIL_REQUEST,
-      payload: posts[currentPostKey],
+      payload: posts[currentPostKey]._id,
     });
   };
 

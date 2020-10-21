@@ -40,7 +40,6 @@ const PostDetail = () => {
       <Row>
         <Col>
           작가:
-          {Array.isArray(authors)}
           {authors.map((author) => (
             <span key={author}>{author}</span>
           ))}

@@ -14,6 +14,9 @@ import {
   POST_DETAIL_REQUEST,
   POST_DETAIL_SUCCESS,
   POST_DETAIL_FAILURE,
+  CATEGORY_LOADING_REQUEST,
+  CATEGORY_LOADING_SUCCESS,
+  CATEGORY_LOADING_FAILURE,
 } from "../types";
 
 const initialState = {
@@ -24,8 +27,9 @@ const initialState = {
   loading: false,
   error: "",
   // creatorId: "",
-  categoryFindResult: "",
-  title: "",
+  categoryResult: "",
+  selectedCategory: "전체",
+  // title: "",
   searchTerm: "",
   searchResult: "",
   searchBookTerm: "",
@@ -108,6 +112,23 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case POST_DETAIL_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+    case CATEGORY_LOADING_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case CATEGORY_LOADING_SUCCESS:
+      return {
+        ...state,
+        categoryResult: action.payload,
+        loading: false,
+      };
+    case CATEGORY_LOADING_FAILURE:
       return {
         ...state,
         error: action.payload,

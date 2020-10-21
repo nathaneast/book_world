@@ -9,6 +9,7 @@ import User from "../../models/user";
 const router = express.Router();
 
 // api/posts
+
 router.get("/", async (req, res) => {
   const postFindResult = await Post.find();
   console.log("postFindResult", postFindResult);
@@ -34,7 +35,7 @@ router.get("/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id)
       .populate("creator", "email name")
-      .populate("category", "categoryName");
+      .populate({ path: "category", select: "categoryName" });
     post.views += 1;
     post.save();
     console.log(post, "post id");
@@ -45,9 +46,21 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+router.get("/category", async (req, res) => {
+  console.log('서버 카테고리 연결')
+  // try {
+  //   const category = ["전체"];
+  //   const categoryFindResult = await Post.find();
+  //   console.log(categoryFindResult);
+  //   res.json(categoryFindResult)
+  // } catch {
+  //   console.error(e);
+  // }
+});
+
 router.post("/", auth, async (req, res) => {
   try {
-    console.log("req.body", req.body);
+    // console.log("req.body", req.body);
     const {
       title,
       category,
@@ -71,7 +84,7 @@ router.post("/", auth, async (req, res) => {
       publisher,
       date: moment().format("YYYY-MM-DD hh:mm:ss"),
     });
-    console.log(req.user, "req user!!!");
+    // console.log(req.user, "req user!!!");
 
     const findCategory = await Category.findOne({
       categoryName: category,
@@ -80,7 +93,7 @@ router.post("/", auth, async (req, res) => {
 
     if (findCategory) {
       await Post.findByIdAndUpdate(newPost._id, {
-        $push: { category: findCategory._id },
+         category: findCategory._id ,
       });
       await Category.findByIdAndUpdate(findCategory._id, {
         $push: {
@@ -92,7 +105,7 @@ router.post("/", auth, async (req, res) => {
         categoryName: category,
       });
       await Post.findByIdAndUpdate(newPost._id, {
-        $push: { category: newCategory._id },
+        category: newCategory._id ,
       });
       await Category.findByIdAndUpdate(newCategory._id, {
         $push: {

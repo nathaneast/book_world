@@ -17,6 +17,9 @@ import {
   POST_DETAIL_REQUEST,
   POST_DETAIL_SUCCESS,
   POST_DETAIL_FAILURE,
+  CATEGORY_LOADING_REQUEST,
+  CATEGORY_LOADING_SUCCESS,
+  CATEGORY_LOADING_FAILURE,
 } from "../types";
 import kakaoAPI from "../../kakaoAPI";
 
@@ -133,26 +136,60 @@ function* loadingPost(action) {
 function* watchLoadingPost() {
   yield takeEvery(POST_LOADING_REQUEST, loadingPost);
 }
+
 // post Detail
+
+const loadPostDetailAPI = (payload) => {
+  return axios.get(`/api/post/${payload}`);
+};
 
 function* postDetail(action) {
   try {
-    console.log(action, "postDetail");
+    console.log(action.payload, 'postDetail action')
+    const result = yield call(loadPostDetailAPI, action.payload);
+    console.log(result, "postDetail 결과 값");
     yield put({
       type: POST_DETAIL_SUCCESS,
-      payload: action.payload,
+      payload: result.data,
     });
-    yield put(push(`/post/${action.payload._id}`));
+    yield put(push(`/post/${result.data._id}`));
   } catch (e) {
     yield put({
       type: POST_DETAIL_FAILURE,
       payload: e.response,
     });
+    yield put(push("/"));
   }
 }
 
 function* watchPostDetail() {
   yield takeEvery(POST_DETAIL_REQUEST, postDetail);
+}
+
+// Category Loading
+
+const loadingCategoryAPI = () => {
+  return axios.get("/api/post/category");
+};
+
+function* loadingCategory() {
+  try {
+    const result = yield call(loadingCategoryAPI);
+    console.log(result, "loadingCategory 결과 값");
+    yield put({
+      type: CATEGORY_LOADING_SUCCESS,
+      payload: result.data,
+    });
+  } catch (e) {
+    yield put({
+      type: CATEGORY_LOADING_FAILURE,
+      payload: e.response,
+    });
+  }
+}
+
+function* watchLoadingCategory() {
+  yield takeEvery(CATEGORY_LOADING_REQUEST, loadingCategory);
 }
 
 export default function* postSaga() {
@@ -162,5 +199,6 @@ export default function* postSaga() {
     fork(watchUploadingPost),
     fork(watchLoadingPost),
     fork(watchPostDetail),
+    fork(watchLoadingCategory),
   ]);
 }
