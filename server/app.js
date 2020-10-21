@@ -10,6 +10,7 @@ import morgan from "morgan";
 import authRoutes from "./routes/api/auth";
 import userRoutes from "./routes/api/user";
 import postRoutes from "./routes/api/post";
+import categoryRoutes from "./routes/api/category";
 
 const app = express();
 const { MONGO_URI } = config;
@@ -41,5 +42,6 @@ app.get("/", (req, res) => res.send("not login, home"));
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/post", postRoutes);
+app.use("/api/category", categoryRoutes);
 
 export default app;

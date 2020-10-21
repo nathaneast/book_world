@@ -46,18 +46,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.get("/category", async (req, res) => {
-  console.log('서버 카테고리 연결')
-  // try {
-  //   const category = ["전체"];
-  //   const categoryFindResult = await Post.find();
-  //   console.log(categoryFindResult);
-  //   res.json(categoryFindResult)
-  // } catch {
-  //   console.error(e);
-  // }
-});
-
 router.post("/", auth, async (req, res) => {
   try {
     // console.log("req.body", req.body);

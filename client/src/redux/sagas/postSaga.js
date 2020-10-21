@@ -169,22 +169,22 @@ function* watchPostDetail() {
 // Category Loading
 
 const loadingCategoryAPI = () => {
-  return axios.get("/api/post/category");
+  return axios.get("api/category");
 };
 
 function* loadingCategory() {
   try {
     const result = yield call(loadingCategoryAPI);
     console.log(result, "loadingCategory 결과 값");
-    yield put({
-      type: CATEGORY_LOADING_SUCCESS,
-      payload: result.data,
-    });
+    // yield put({
+    //   type: CATEGORY_LOADING_SUCCESS,
+    //   payload: result.data,
+    // });
   } catch (e) {
-    yield put({
-      type: CATEGORY_LOADING_FAILURE,
-      payload: e.response,
-    });
+    // yield put({
+    //   type: CATEGORY_LOADING_FAILURE,
+    //   payload: e.response,
+    // });
   }
 }
 
