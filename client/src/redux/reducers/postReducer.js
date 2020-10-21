@@ -55,9 +55,6 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case SELECT_BOOK_REQUEST:
-    case POST_UPLOADING_REQUEST:
-    case POST_LOADING_REQUEST:
-    case POST_DETAIL_REQUEST:
       return {
         ...state,
         loading: true,
@@ -67,6 +64,14 @@ export default function (state = initialState, action) {
         ...state,
         selectedSearchBook: action.payload,
         loading: false,
+      };
+    case POST_UPLOADING_REQUEST:
+    case POST_LOADING_REQUEST:
+    case POST_DETAIL_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        posts: [],
       };
     case POST_UPLOADING_SUCCESS:
       return {
@@ -101,14 +106,12 @@ export default function (state = initialState, action) {
         ...state,
         postDetail: action.payload,
         loading: false,
-        posts: [],
       };
     case POST_DETAIL_FAILURE:
       return {
         ...state,
         error: action.payload,
         loading: false,
-        posts: [],
       };
     default:
       return state;

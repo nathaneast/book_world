@@ -8,11 +8,13 @@ import PostCardList from "../components/PostCardList";
 import AppNavBar from "../components/AppNavBar";
 import PostWrite from "./PostWrite";
 import PostDetail from "./PostDetail";
+import Category from "../components/Category";
 
 const MyRouter = () => (
   <>
     <AppNavBar />
     <Header />
+    <Category />
     <Container id="main-body">
       <Switch>
         <Route path="/" exact component={PostCardList} />
