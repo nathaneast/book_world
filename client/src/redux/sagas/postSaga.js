@@ -145,7 +145,7 @@ const loadPostDetailAPI = (payload) => {
 
 function* postDetail(action) {
   try {
-    console.log(action.payload, 'postDetail action')
+    console.log(action.payload, "postDetail action");
     const result = yield call(loadPostDetailAPI, action.payload);
     console.log(result, "postDetail 결과 값");
     yield put({
@@ -176,15 +176,15 @@ function* loadingCategory() {
   try {
     const result = yield call(loadingCategoryAPI);
     console.log(result, "loadingCategory 결과 값");
-    // yield put({
-    //   type: CATEGORY_LOADING_SUCCESS,
-    //   payload: result.data,
-    // });
+    yield put({
+      type: CATEGORY_LOADING_SUCCESS,
+      payload: result.data,
+    });
   } catch (e) {
-    // yield put({
-    //   type: CATEGORY_LOADING_FAILURE,
-    //   payload: e.response,
-    // });
+    yield put({
+      type: CATEGORY_LOADING_FAILURE,
+      payload: e.response,
+    });
   }
 }
 
