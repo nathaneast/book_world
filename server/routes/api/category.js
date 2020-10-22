@@ -24,4 +24,19 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const categoryTitle = req.params.id;
+    console.log(categoryTitle, "categoryTitle");
+
+    if (categoryTitle === "전체") {
+    } else {
+    }
+
+    // res.json(categoryTitle);
+  } catch {
+    console.error(e);
+  }
+});
+
 export default router;

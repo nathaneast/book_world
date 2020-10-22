@@ -20,6 +20,9 @@ import {
   CATEGORY_LOADING_REQUEST,
   CATEGORY_LOADING_SUCCESS,
   CATEGORY_LOADING_FAILURE,
+  CATEGORY_SELECT_REQUEST,
+  CATEGORY_SELECT_SUCCESS,
+  CATEGORY_SELECT_FAILURE,
 } from "../types";
 import kakaoAPI from "../../kakaoAPI";
 
@@ -191,6 +194,31 @@ function* loadingCategory() {
 function* watchLoadingCategory() {
   yield takeEvery(CATEGORY_LOADING_REQUEST, loadingCategory);
 }
+// Category Select
+
+const selectCategoryAPI = (payload) => {
+  return axios.get(`api/category/${payload}`);
+};
+
+function* selectCategory(action) {
+  try {
+    const result = yield call(selectCategoryAPI, action.payload);
+    console.log(result, "selectCategoryAPI 결과 값");
+    // yield put({
+    //   type: CATEGORY_SELECT_SUCCESS,
+    //   payload: result.data,
+    // });
+  } catch (e) {
+    // yield put({
+    //   type: CATEGORY_SELECT_FAILURE,
+    //   payload: e.response,
+    // });
+  }
+}
+
+function* watchSelectCategory() {
+  yield takeEvery(CATEGORY_SELECT_REQUEST, selectCategory);
+}
 
 export default function* postSaga() {
   yield all([
@@ -200,5 +228,6 @@ export default function* postSaga() {
     fork(watchLoadingPost),
     fork(watchPostDetail),
     fork(watchLoadingCategory),
+    fork(watchSelectCategory),
   ]);
 }

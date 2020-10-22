@@ -17,6 +17,9 @@ import {
   CATEGORY_LOADING_REQUEST,
   CATEGORY_LOADING_SUCCESS,
   CATEGORY_LOADING_FAILURE,
+  CATEGORY_SELECT_REQUEST,
+  CATEGORY_SELECT_SUCCESS,
+  CATEGORY_SELECT_FAILURE,
 } from "../types";
 
 const initialState = {
@@ -59,6 +62,7 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case SELECT_BOOK_REQUEST:
+    case CATEGORY_LOADING_REQUEST:
       return {
         ...state,
         loading: true,
@@ -117,11 +121,6 @@ export default function (state = initialState, action) {
         error: action.payload,
         loading: false,
       };
-    case CATEGORY_LOADING_REQUEST:
-      return {
-        ...state,
-        loading: true,
-      };
     case CATEGORY_LOADING_SUCCESS:
       return {
         ...state,
@@ -129,6 +128,24 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case CATEGORY_LOADING_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+    case CATEGORY_SELECT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case CATEGORY_SELECT_SUCCESS:
+      return {
+        ...state,
+        selectedCategory: action.payload,
+        posts: action.payload,
+        loading: false,
+      };
+    case CATEGORY_SELECT_FAILURE:
       return {
         ...state,
         error: action.payload,
