@@ -196,23 +196,28 @@ function* watchLoadingCategory() {
 }
 // Category Select
 
-const selectCategoryAPI = (payload) => {
-  return axios.get(`api/category/${payload}`);
+const selectCategoryAPI = (categoryName) => {
+  return axios.get(`api/category/${categoryName}`);
 };
 
 function* selectCategory(action) {
   try {
+    console.log(action.payload, "selectCategory");
     const result = yield call(selectCategoryAPI, action.payload);
     console.log(result, "selectCategoryAPI 결과 값");
-    // yield put({
-    //   type: CATEGORY_SELECT_SUCCESS,
-    //   payload: result.data,
-    // });
+    const payload = {
+      posts: result.data,
+      selectedCategory: action.payload,
+    };
+    yield put({
+      type: CATEGORY_SELECT_SUCCESS,
+      payload,
+    });
   } catch (e) {
-    // yield put({
-    //   type: CATEGORY_SELECT_FAILURE,
-    //   payload: e.response,
-    // });
+    yield put({
+      type: CATEGORY_SELECT_FAILURE,
+      payload: e.response,
+    });
   }
 }
 

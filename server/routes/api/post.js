@@ -48,7 +48,6 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", auth, async (req, res) => {
   try {
-    // console.log("req.body", req.body);
     const {
       title,
       category,
@@ -72,7 +71,6 @@ router.post("/", auth, async (req, res) => {
       publisher,
       date: moment().format("YYYY-MM-DD hh:mm:ss"),
     });
-    // console.log(req.user, "req user!!!");
 
     const findCategory = await Category.findOne({
       categoryName: category,
@@ -81,7 +79,7 @@ router.post("/", auth, async (req, res) => {
 
     if (findCategory) {
       await Post.findByIdAndUpdate(newPost._id, {
-         category: findCategory._id ,
+        category: findCategory._id,
       });
       await Category.findByIdAndUpdate(findCategory._id, {
         $push: {
@@ -93,7 +91,7 @@ router.post("/", auth, async (req, res) => {
         categoryName: category,
       });
       await Post.findByIdAndUpdate(newPost._id, {
-        category: newCategory._id ,
+        category: newCategory._id,
       });
       await Category.findByIdAndUpdate(newCategory._id, {
         $push: {
