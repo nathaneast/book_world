@@ -16,6 +16,7 @@ router.get("/", async (req, res) => {
   res.json(postFindResult);
 });
 
+// 무한스크롤 페이지네이션 나중에 구현
 router.get("/skip/:skip", async (req, res) => {
   try {
     const postCount = await Post.countDocuments();

@@ -7,7 +7,7 @@ import {
 } from "../redux/types";
 
 const Category = () => {
-  const { categoryResult } = useSelector((state) => state.post);
+  const { categoryResult, selectedCategory } = useSelector((state) => state.post);
 
   const dispatch = useDispatch();
 
@@ -17,12 +17,14 @@ const Category = () => {
     });
   }, [dispatch]);
 
+  // 카테고리 선택하면 해당 글 나오는것 개발 미루기
   const onClick = (e) => {
     const targetCategoryKey = Number(e.currentTarget.dataset.key);
-    dispatch({
-      type: CATEGORY_SELECT_REQUEST,
-      payload: categoryResult[targetCategoryKey],
-    });
+    const targetCategory = categoryResult[targetCategoryKey];
+      dispatch({
+        type: CATEGORY_SELECT_REQUEST,
+        payload: targetCategory,
+      });
   };
 
   // categoryResult true 값 따로 변수로 선언하면 동작 안함

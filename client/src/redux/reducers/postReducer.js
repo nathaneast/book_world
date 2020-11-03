@@ -26,7 +26,7 @@ const initialState = {
   isAuthenticated: null,
   posts: [],
   postDetail: "",
-  postCount: "",
+  postCount: 0,
   loading: false,
   error: "",
   // creatorId: "",
@@ -141,8 +141,8 @@ export default function (state = initialState, action) {
     case CATEGORY_SELECT_SUCCESS:
       return {
         ...state,
-        selectedCategory: action.payload,
-        posts: action.payload,
+        selectedCategory: action.payload.selectedCategory,
+        posts: action.payload.posts,
         loading: false,
       };
     case CATEGORY_SELECT_FAILURE:

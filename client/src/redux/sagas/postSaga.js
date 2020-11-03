@@ -117,9 +117,11 @@ function* watchUploadingPost() {
 
 const loadingPostAPI = (payload) => {
   return axios.get(`/api/post/skip/${payload}`);
+  // return axios.get(`/api/category/${payload}`);
 };
 
 function* loadingPost(action) {
+
   try {
     console.log(action, "loadingPost");
     const result = yield call(loadingPostAPI, action.payload);
@@ -194,6 +196,7 @@ function* loadingCategory() {
 function* watchLoadingCategory() {
   yield takeEvery(CATEGORY_LOADING_REQUEST, loadingCategory);
 }
+
 // Category Select
 
 const selectCategoryAPI = (payload) => {
@@ -204,15 +207,21 @@ function* selectCategory(action) {
   try {
     const result = yield call(selectCategoryAPI, action.payload);
     console.log(result, "selectCategoryAPI 결과 값");
-    // yield put({
-    //   type: CATEGORY_SELECT_SUCCESS,
-    //   payload: result.data,
-    // });
+    const payload = {
+      selectedCategory: action.payload,
+      posts: result.data
+    };
+    yield put({
+      type: CATEGORY_SELECT_SUCCESS,
+      payload
+    });
+    yield put(push("/"));
   } catch (e) {
-    // yield put({
-    //   type: CATEGORY_SELECT_FAILURE,
-    //   payload: e.response,
-    // });
+    yield put({
+      type: CATEGORY_SELECT_FAILURE,
+      payload: e.response,
+    });
+    yield put(push("/"));
   }
 }
 
