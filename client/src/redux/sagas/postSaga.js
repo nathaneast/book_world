@@ -121,7 +121,6 @@ const loadingPostAPI = (payload) => {
 };
 
 function* loadingPost(action) {
-
   try {
     console.log(action, "loadingPost");
     const result = yield call(loadingPostAPI, action.payload);
@@ -209,33 +208,20 @@ function* selectCategory(action) {
     const result = yield call(selectCategoryAPI, action.payload);
     console.log(result, "selectCategoryAPI 결과 값");
     const payload = {
-<<<<<<< HEAD
       selectedCategory: action.payload,
-      posts: result.data
-    };
-    yield put({
-      type: CATEGORY_SELECT_SUCCESS,
-      payload
-    });
-    yield put(push("/"));
-=======
       posts: result.data,
-      selectedCategory: action.payload,
     };
     yield put({
       type: CATEGORY_SELECT_SUCCESS,
       payload,
     });
->>>>>>> 8806e0e30bc9bc2c4e5ad77eb68d9f539fa97723
+    // yield put(push("/"));
   } catch (e) {
     yield put({
       type: CATEGORY_SELECT_FAILURE,
       payload: e.response,
     });
-<<<<<<< HEAD
-    yield put(push("/"));
-=======
->>>>>>> 8806e0e30bc9bc2c4e5ad77eb68d9f539fa97723
+    // yield put(push("/"));
   }
 }
 
