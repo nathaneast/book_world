@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { Button, Row } from "reactstrap";
 import {
   CATEGORY_LOADING_REQUEST,
@@ -7,9 +8,13 @@ import {
 } from "../redux/types";
 
 const Category = () => {
-  const { categoryResult, selectedCategory } = useSelector((state) => state.post);
+  const { categoryResult, selectedCategory } = useSelector(
+    (state) => state.post
+  );
 
   const dispatch = useDispatch();
+
+  const location = useLocation();
 
   useEffect(() => {
     dispatch({
@@ -21,10 +26,13 @@ const Category = () => {
   const onClick = (e) => {
     const targetCategoryKey = Number(e.currentTarget.dataset.key);
     const targetCategory = categoryResult[targetCategoryKey];
-      dispatch({
-        type: CATEGORY_SELECT_REQUEST,
-        payload: targetCategory,
-      });
+    dispatch({
+      type: CATEGORY_SELECT_REQUEST,
+      payload: {
+        targetCategory,
+        path: location.pathname,
+      },
+    });
   };
 
   // categoryResult true 값 따로 변수로 선언하면 동작 안함

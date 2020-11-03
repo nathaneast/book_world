@@ -121,21 +121,6 @@ const loadingPostAPI = (payload) => {
 
 function* loadingPost(action) {
   try {
-    console.log(action, "loadingPost");
-    const result = yield call(loadingPostAPI, action.payload);
-    console.log(result, "loadingPost 결과 값");
-    yield put({
-      type: POST_LOADING_SUCCESS,
-      payload: result.data,
-    });
-  } catch (e) {
-    yield put({
-      type: POST_LOADING_FAILURE,
-      payload: e.response,
-    });
-  }
-
-  try {
     console.log(action.payload, "selectCategory");
     const result = yield call(loadingPostAPI, action.payload);
     console.log(result, "selectCategoryAPI 결과 값");
@@ -143,13 +128,11 @@ function* loadingPost(action) {
       type: POST_LOADING_SUCCESS,
       payload: result.data,
     });
-    // yield put(push("/"));
   } catch (e) {
     yield put({
       type: POST_LOADING_FAILURE,
       payload: e.response,
     });
-    // yield put(push("/"));
   }
 }
 
@@ -219,24 +202,20 @@ function* watchLoadingCategory() {
 
 function* selectCategory(action) {
   try {
-    // console.log(action.payload, "selectCategory");
-    // const result = yield call(selectCategoryAPI, action.payload);
-    // console.log(result, "selectCategoryAPI 결과 값");
-    // const payload = {
-    //   posts: result.data,
-    //   selectedCategory: action.payload,
-    // };
+    console.log(action.payload, "selectCategory");
     yield put({
       type: CATEGORY_SELECT_SUCCESS,
-      payload: action.payload,
+      payload: action.payload.targetCategory,
     });
-    // yield put(push("/"));
   } catch (e) {
     yield put({
       type: CATEGORY_SELECT_FAILURE,
       payload: e.response,
     });
-    // yield put(push("/"));
+  } finally {
+    if (action.payload.path !== "/") {
+      yield put(push("/"));
+    }
   }
 }
 

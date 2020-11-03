@@ -22,7 +22,7 @@ const PostCardList = () => {
       type: POST_LOADING_REQUEST,
       payload: selectedCategory,
     });
-  }, [dispatch]);
+  }, [dispatch, selectedCategory]);
 
   const onClick = (e) => {
     const currentPostKey = Number(e.currentTarget.dataset.key);
