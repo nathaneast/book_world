@@ -117,11 +117,9 @@ function* watchUploadingPost() {
 
 const loadingPostAPI = (payload) => {
   return axios.get(`/api/post/skip/${payload}`);
-  // return axios.get(`/api/category/${payload}`);
 };
 
 function* loadingPost(action) {
-
   try {
     console.log(action, "loadingPost");
     const result = yield call(loadingPostAPI, action.payload);
@@ -135,6 +133,23 @@ function* loadingPost(action) {
       type: POST_LOADING_FAILURE,
       payload: e.response,
     });
+  }
+
+  try {
+    console.log(action.payload, "selectCategory");
+    const result = yield call(loadingPostAPI, action.payload);
+    console.log(result, "selectCategoryAPI 결과 값");
+    yield put({
+      type: POST_LOADING_SUCCESS,
+      payload: result.data,
+    });
+    // yield put(push("/"));
+  } catch (e) {
+    yield put({
+      type: POST_LOADING_FAILURE,
+      payload: e.response,
+    });
+    // yield put(push("/"));
   }
 }
 
@@ -196,46 +211,32 @@ function* loadingCategory() {
 function* watchLoadingCategory() {
   yield takeEvery(CATEGORY_LOADING_REQUEST, loadingCategory);
 }
-
 // Category Select
 
-const selectCategoryAPI = (categoryName) => {
-  return axios.get(`api/category/${categoryName}`);
-};
+// const selectCategoryAPI = (categoryName) => {
+//   return axios.get(`api/category/${categoryName}`);
+// };
 
 function* selectCategory(action) {
   try {
-    console.log(action.payload, "selectCategory");
-    const result = yield call(selectCategoryAPI, action.payload);
-    console.log(result, "selectCategoryAPI 결과 값");
-    const payload = {
-<<<<<<< HEAD
-      selectedCategory: action.payload,
-      posts: result.data
-    };
+    // console.log(action.payload, "selectCategory");
+    // const result = yield call(selectCategoryAPI, action.payload);
+    // console.log(result, "selectCategoryAPI 결과 값");
+    // const payload = {
+    //   posts: result.data,
+    //   selectedCategory: action.payload,
+    // };
     yield put({
       type: CATEGORY_SELECT_SUCCESS,
-      payload
+      payload: action.payload,
     });
-    yield put(push("/"));
-=======
-      posts: result.data,
-      selectedCategory: action.payload,
-    };
-    yield put({
-      type: CATEGORY_SELECT_SUCCESS,
-      payload,
-    });
->>>>>>> 8806e0e30bc9bc2c4e5ad77eb68d9f539fa97723
+    // yield put(push("/"));
   } catch (e) {
     yield put({
       type: CATEGORY_SELECT_FAILURE,
       payload: e.response,
     });
-<<<<<<< HEAD
-    yield put(push("/"));
-=======
->>>>>>> 8806e0e30bc9bc2c4e5ad77eb68d9f539fa97723
+    // yield put(push("/"));
   }
 }
 

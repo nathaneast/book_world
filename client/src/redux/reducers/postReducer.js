@@ -99,8 +99,7 @@ export default function (state = initialState, action) {
     case POST_LOADING_SUCCESS:
       return {
         ...state,
-        posts: state.posts.concat(action.payload.postFindResult),
-        postCount: action.payload.postCount,
+        posts: action.payload,
         loading: false,
       };
     case POST_LOADING_FAILURE:
@@ -141,8 +140,8 @@ export default function (state = initialState, action) {
     case CATEGORY_SELECT_SUCCESS:
       return {
         ...state,
-        selectedCategory: action.payload.selectedCategory,
-        posts: action.payload.posts,
+        selectedCategory: action.payload,
+        // posts: action.payload.posts,
         loading: false,
       };
     case CATEGORY_SELECT_FAILURE:
