@@ -1,6 +1,6 @@
 // import Helmet from "helmet";
 // import { push } from "connected-react-router";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Row,
@@ -15,15 +15,14 @@ import { POST_LOADING_REQUEST, POST_DETAIL_REQUEST } from "../redux/types";
 const PostCardList = () => {
   const dispatch = useDispatch();
 
-  const { posts } = useSelector((state) => state.post);
+  const { posts, selectedCategory } = useSelector((state) => state.post);
 
   useEffect(() => {
     dispatch({
       type: POST_LOADING_REQUEST,
-      payload: 0,
+      payload: selectedCategory,
     });
-    console.log("post card list useEffect 실행");
-  }, [dispatch]);
+  }, [dispatch, selectedCategory]);
 
   const onClick = (e) => {
     const currentPostKey = Number(e.currentTarget.dataset.key);

@@ -17,20 +17,59 @@ router.get("/", async (req, res) => {
 });
 
 // 무한스크롤 페이지네이션 나중에 구현
-router.get("/skip/:skip", async (req, res) => {
+// 코멘트 추가되면 넣어야함
+// 전체 이외 카테고리 최신순 정렬 구현
+router.get("/skip/:categoryName", async (req, res) => {
   try {
-    const postCount = await Post.countDocuments();
-    const postFindResult = await Post.find()
-      .skip(Number(req.params.skip))
-      .limit(6)
-      .sort({ date: -1 });
-    const result = { postCount, postFindResult };
-    res.json(result);
+    const selectedCategory = req.params.categoryName;
+    console.log(selectedCategory, "selectedCategory");
+
+    if (selectedCategory === "전체") {
+      const allPosts = await Post.find()
+        .sort({ date: -1 })
+        .populate("creator", "name email")
+        .populate("category", "categoryName");
+      res.json(allPosts);
+    } else {
+      const categoryPosts = await Category.findOne({
+        categoryName: selectedCategory,
+      })
+        .sort({ date: -1 })
+        .populate({
+          path: "posts",
+          populate: [
+            {
+              path: "creator",
+              select: "name email",
+            },
+            {
+              path: "category",
+              select: "categoryName",
+            },
+          ],
+        });
+      console.log(categoryPosts, "셀렉 이외 result");
+      res.json(categoryPosts.posts);
+    }
   } catch (e) {
     console.error(e);
-    res.json({ msg: "더 이상 포스트가 없습니다" });
   }
 });
+
+// router.get("/skip/:skip", async (req, res) => {
+//   try {
+//     const postCount = await Post.countDocuments();
+//     const postFindResult = await Post.find()
+//       .skip(Number(req.params.skip))
+//       .limit(6)
+//       .sort({ date: -1 });
+//     const result = { postCount, postFindResult };
+//     res.json(result);
+//   } catch (e) {
+//     console.error(e);
+//     res.json({ msg: "더 이상 포스트가 없습니다" });
+//   }
+// });
 
 router.get("/:id", async (req, res) => {
   try {
@@ -60,6 +99,7 @@ router.post("/", auth, async (req, res) => {
       authors,
       publisher,
     } = req.body;
+
     const newPost = await Post.create({
       creator: req.user.id,
       title,

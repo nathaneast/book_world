@@ -117,14 +117,13 @@ function* watchUploadingPost() {
 
 const loadingPostAPI = (payload) => {
   return axios.get(`/api/post/skip/${payload}`);
-  // return axios.get(`/api/category/${payload}`);
 };
 
 function* loadingPost(action) {
   try {
-    console.log(action, "loadingPost");
+    console.log(action.payload, "selectCategory");
     const result = yield call(loadingPostAPI, action.payload);
-    console.log(result, "loadingPost 결과 값");
+    console.log(result, "selectCategoryAPI 결과 값");
     yield put({
       type: POST_LOADING_SUCCESS,
       payload: result.data,
@@ -195,33 +194,24 @@ function* loadingCategory() {
 function* watchLoadingCategory() {
   yield takeEvery(CATEGORY_LOADING_REQUEST, loadingCategory);
 }
-
 // Category Select
-
-const selectCategoryAPI = (categoryName) => {
-  return axios.get(`api/category/${categoryName}`);
-};
 
 function* selectCategory(action) {
   try {
     console.log(action.payload, "selectCategory");
-    const result = yield call(selectCategoryAPI, action.payload);
-    console.log(result, "selectCategoryAPI 결과 값");
-    const payload = {
-      selectedCategory: action.payload,
-      posts: result.data,
-    };
     yield put({
       type: CATEGORY_SELECT_SUCCESS,
-      payload,
+      payload: action.payload.targetCategory,
     });
-    // yield put(push("/"));
   } catch (e) {
     yield put({
       type: CATEGORY_SELECT_FAILURE,
       payload: e.response,
     });
-    // yield put(push("/"));
+  } finally {
+    if (action.payload.path !== "/") {
+      yield put(push("/"));
+    }
   }
 }
 
