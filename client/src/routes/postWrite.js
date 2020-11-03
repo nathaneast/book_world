@@ -127,12 +127,12 @@ const PostWrite = () => {
           >
             <option></option>
             <option>문학</option>
-            <option>경제/경영/자기계발</option>
-            <option>인문/사회/과학</option>
-            <option>여행/예술/종교</option>
-            <option>어린이/청소년/실용</option>
-            <option>취업/수험서</option>
-            <option>역사/문화</option>
+            <option>경제 경영 자기계발</option>
+            <option>인문 사회 과학</option>
+            <option>여행 예술 종교</option>
+            <option>어린이 청소년 실용</option>
+            <option>취업 수험서</option>
+            <option>역사 문화</option>
             <option>미분류</option>
           </Input>
           <Label for="part">어떤 파트 인가요 ?</Label>

@@ -22,6 +22,7 @@ const PostCardList = () => {
       type: POST_LOADING_REQUEST,
       payload: 0,
     });
+    console.log("post card list useEffect 실행");
   }, [dispatch]);
 
   const onClick = (e) => {

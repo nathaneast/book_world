@@ -11,7 +11,12 @@ router.get("/", async (req, res) => {
     let category = ["전체"];
     console.log(categoryFindResult, "categoryFindResult");
 
+<<<<<<< HEAD
     if (categoryFindResult.length) {
+=======
+    if (categoryFindResult) {
+      console.log("categoryFindResult.length 들어옴");
+>>>>>>> 8806e0e30bc9bc2c4e5ad77eb68d9f539fa97723
       const categoryNames = categoryFindResult.map(
         (category) => category.categoryName
       );
@@ -24,6 +29,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
 // 코멘트 추가되면 넣어야함 
 router.get("/:categoryName", async (req, res) => {
   try {
@@ -56,6 +62,30 @@ router.get("/:categoryName", async (req, res) => {
       });
       console.log(categoryPosts, "셀렉 이외 result");
       res.json(categoryPosts.posts);
+=======
+// comment 만들면 populate 같이 하기
+// 전체 이외 카테고리시 populate 안쓰는 항목 제거
+router.get("/:id", async (req, res) => {
+  try {
+    const categoryName = req.params.id;
+    console.log(categoryName, "categoryName");
+    if (categoryName === "전체") {
+      const postFindResult = await Post.find().sort({ date: -1 });
+      console.log("server postFindResult 전체", postFindResult);
+      res.json(postFindResult);
+    } else {
+      const postFindResult = await Category.findOne()
+        .where("categoryName")
+        .equals(categoryName)
+        .populate(
+          "posts",
+          "authors bookTitle category comments contents creator date imageUrl page part publisher title views"
+        )
+        .sort({ date: -1 });
+
+      console.log("postFindResult 이외", postFindResult);
+      res.json(postFindResult.posts);
+>>>>>>> 8806e0e30bc9bc2c4e5ad77eb68d9f539fa97723
     }
   } catch (e) {
     console.error(e);
