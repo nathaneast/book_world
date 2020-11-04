@@ -9,10 +9,23 @@ router.get("/:searchTerm", async (req, res) => {
   try {
     const searchTerm = req.params.searchTerm;
     const searchResult = await Post.find({
-      bookTitle: searchTerm
-    });
-    console.log(searchTerm, 'searchTerm')
+      bookTitle: {
+        $regex: searchTerm,
+        $options: "i",
+      },
+    })
+    .sort({ date: -1 })
+    .populate("creator", "name email")
+    .populate("category", "categoryName");
+
+    console.log(searchTerm, 'searchTerm');
     console.log(searchResult,'searchResult');
+
+    const response = {
+      searchTerm,
+      searchResult,
+    }
+    res.json(response)
   } catch (e) {
     console.error(e);
   }

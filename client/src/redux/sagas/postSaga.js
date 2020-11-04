@@ -125,7 +125,7 @@ const loadingPostAPI = (payload) => {
 function* loadingPost(action) {
   try {
     console.log(action.payload, "selectCategory");
-    const result = yield call(loadingPostAPI, action.payload);
+    const result = yield call(loadingPostAPI, action.payload ? action.payload : "전체");
     console.log(result, "selectCategoryAPI 결과 값");
     yield put({
       type: POST_LOADING_SUCCESS,
@@ -226,10 +226,11 @@ function* watchSelectCategory() {
 // Search 
 
 const searchAPI = (payload) => {
-  return axios.get(`api/post/search/${payload}`);
+  return axios.get(`api/search/${payload}`);
 };
 
 function* search(action) {
+  console.log('search postSaga 실행');
   try {
     const result = yield call(searchAPI, action.payload);
     console.log(result, "search 결과 값");
@@ -237,11 +238,13 @@ function* search(action) {
       type: SEARCH_SUCCESS,
       payload: result.data,
     });
+    yield put(push(`search/${action.payload}`));
   } catch (e) {
     yield put({
       type: SEARCH_FAILURE,
       payload: e.response,
     });
+    yield put(push("/"));
   }
 }
 

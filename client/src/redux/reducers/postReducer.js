@@ -156,13 +156,15 @@ export default function (state = initialState, action) {
     case SEARCH_REQUEST:
       return {
         ...state,
+        searchTerm: "",
+        searchResult: "",
         loading: true,
-        posts: [],
       };
     case SEARCH_SUCCESS:
       return {
         ...state,
-        posts: action.payload,
+        searchTerm: action.payload.searchTerm,
+        searchResult: action.payload.searchResult,
         loading: false,
       };
     case SEARCH_FAILURE:
