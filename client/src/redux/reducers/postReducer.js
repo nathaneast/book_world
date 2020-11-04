@@ -20,6 +20,9 @@ import {
   CATEGORY_SELECT_REQUEST,
   CATEGORY_SELECT_SUCCESS,
   CATEGORY_SELECT_FAILURE,
+  SEARCH_REQUEST,
+  SEARCH_SUCCESS,
+  SEARCH_FAILURE,
 } from "../types";
 
 const initialState = {
@@ -145,6 +148,24 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case CATEGORY_SELECT_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+    case SEARCH_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        posts: [],
+      };
+    case SEARCH_SUCCESS:
+      return {
+        ...state,
+        posts: action.payload,
+        loading: false,
+      };
+    case SEARCH_FAILURE:
       return {
         ...state,
         error: action.payload,

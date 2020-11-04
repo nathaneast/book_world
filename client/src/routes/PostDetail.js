@@ -23,8 +23,6 @@ const PostDetail = () => {
   console.log(postDetail);
 
   /* 
-  마크업 하기, map key값들 수정
-
   나 => 수정, 삭제 버튼
   다른 사용자 => 댓글 가능
   게스트 => 댓글 불가
@@ -40,8 +38,8 @@ const PostDetail = () => {
       <Row>
         <Col>
           작가:
-          {authors.map((author) => (
-            <span key={author}>{author}</span>
+          {authors.map((author, index) => (
+            <span key={index}>{author}</span>
           ))}
         </Col>
       </Row>

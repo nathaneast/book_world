@@ -23,6 +23,9 @@ import {
   CATEGORY_SELECT_REQUEST,
   CATEGORY_SELECT_SUCCESS,
   CATEGORY_SELECT_FAILURE,
+  SEARCH_REQUEST,
+  SEARCH_SUCCESS,
+  SEARCH_FAILURE,
 } from "../types";
 import kakaoAPI from "../../kakaoAPI";
 
@@ -194,6 +197,7 @@ function* loadingCategory() {
 function* watchLoadingCategory() {
   yield takeEvery(CATEGORY_LOADING_REQUEST, loadingCategory);
 }
+
 // Category Select
 
 function* selectCategory(action) {
@@ -219,6 +223,32 @@ function* watchSelectCategory() {
   yield takeEvery(CATEGORY_SELECT_REQUEST, selectCategory);
 }
 
+// Search 
+
+const searchAPI = (payload) => {
+  return axios.get(`api/post/search/${payload}`);
+};
+
+function* search(action) {
+  try {
+    const result = yield call(searchAPI, action.payload);
+    console.log(result, "search 결과 값");
+    yield put({
+      type: SEARCH_SUCCESS,
+      payload: result.data,
+    });
+  } catch (e) {
+    yield put({
+      type: SEARCH_FAILURE,
+      payload: e.response,
+    });
+  }
+}
+
+function* watchSearch() {
+  yield takeEvery(SEARCH_REQUEST, search);
+}
+
 export default function* postSaga() {
   yield all([
     fork(watchSearchBook),
@@ -228,5 +258,6 @@ export default function* postSaga() {
     fork(watchPostDetail),
     fork(watchLoadingCategory),
     fork(watchSelectCategory),
+    fork(watchSearch),
   ]);
 }

@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 
 import LoginModal from "../components/auth/loginModal";
 import RegisterModal from "../components/auth/RegisterModal";
+import SearchInput from "./search/SearchInput";
 import { LOGOUT_REQUEST } from "../redux/types";
 
 const AppNavBar = () => {
@@ -88,6 +89,7 @@ const AppNavBar = () => {
           </Link>
           <NavbarToggler onClick={handleToggle} />
           <Collapse isOpen={isOpen} navbar>
+            <SearchInput isOpen={isOpen} />
             <Nav className="ml-auto d-felx justify-content-around" navbar>
               {isAuthenticated ? authLink : guestLink}
             </Nav>

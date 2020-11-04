@@ -11,6 +11,7 @@ import authRoutes from "./routes/api/auth";
 import userRoutes from "./routes/api/user";
 import postRoutes from "./routes/api/post";
 import categoryRoutes from "./routes/api/category";
+import searchRoutes from "./routes/api/search";
 
 const app = express();
 const { MONGO_URI } = config;
@@ -43,5 +44,6 @@ app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/category", categoryRoutes);
+app.use("/api/search", searchRoutes);
 
 export default app;
