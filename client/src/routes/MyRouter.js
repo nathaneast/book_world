@@ -6,7 +6,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import PostCardList from "../components/PostCardList";
 import AppNavBar from "../components/AppNavBar";
-import PostWrite from "./PostWrite";
+import PostWrite from "./postWrite";
 import PostDetail from "./PostDetail";
 import Category from "../components/Category";
 
