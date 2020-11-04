@@ -26,6 +26,9 @@ import {
   SEARCH_REQUEST,
   SEARCH_SUCCESS,
   SEARCH_FAILURE,
+  POST_DELETE_REQUEST,
+  POST_DELETE_SUCCESS,
+  POST_DELETE_FAILURE,
 } from "../types";
 import kakaoAPI from "../../kakaoAPI";
 
@@ -252,6 +255,34 @@ function* watchSearch() {
   yield takeEvery(SEARCH_REQUEST, search);
 }
 
+// post Delete
+
+const postDeleteAPI = (payload) => {
+  return axios.get(`api/post/Delete/${payload}`);
+};
+
+function* postDelete(action) {
+  try {
+    const result = yield call(postDeleteAPI, action.payload);
+    console.log(result, "postDelete 결과 값");
+    yield put({
+      type: postDelete_SUCCESS,
+      payload: result.data,
+    });
+    yield put(push(`/postDelete/${action.payload}`));
+  } catch (e) {
+    yield put({
+      type: postDelete_FAILURE,
+      payload: e.response,
+    });
+    yield put(push("/"));
+  }
+}
+
+function* watchPostDelete() {
+  yield takeEvery(POST_DELETE_REQUEST, postDelete);
+}
+
 export default function* postSaga() {
   yield all([
     fork(watchSearchBook),
@@ -262,5 +293,6 @@ export default function* postSaga() {
     fork(watchLoadingCategory),
     fork(watchSelectCategory),
     fork(watchSearch),
+    fork(watchPostDelete),
   ]);
 }

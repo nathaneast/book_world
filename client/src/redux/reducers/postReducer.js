@@ -23,6 +23,9 @@ import {
   SEARCH_REQUEST,
   SEARCH_SUCCESS,
   SEARCH_FAILURE,
+  POST_DELETE_REQUEST,
+  POST_DELETE_SUCCESS,
+  POST_DELETE_FAILURE,
 } from "../types";
 
 const initialState = {
@@ -78,11 +81,10 @@ export default function (state = initialState, action) {
       };
     case POST_UPLOADING_REQUEST:
     case POST_LOADING_REQUEST:
-    case POST_DETAIL_REQUEST:
       return {
         ...state,
         loading: true,
-        posts: [],
+        // posts: [],
       };
     case POST_UPLOADING_SUCCESS:
       return {
@@ -110,6 +112,11 @@ export default function (state = initialState, action) {
         ...state,
         error: action.payload,
         loading: false,
+      };
+    case POST_DETAIL_REQUEST:
+      return {
+        ...state,
+        loading: true,
       };
     case POST_DETAIL_SUCCESS:
       return {
@@ -169,6 +176,22 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case SEARCH_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+    case POST_DELETE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case POST_DELETE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+      };
+    case POST_DELETE_FAILURE:
       return {
         ...state,
         error: action.payload,

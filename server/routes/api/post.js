@@ -82,7 +82,6 @@ router.get("/:id", async (req, res) => {
     res.json(post);
   } catch (e) {
     console.error(e);
-    next(e);
   }
 });
 
@@ -148,6 +147,17 @@ router.post("/", auth, async (req, res) => {
     });
 
     return res.redirect(`/api/post/${newPost._id}`);
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+router.get("/delete/:id", async (req, res) => {
+  try {
+    const post = await Post.deleteOne({
+      _id: req.params.id
+    });
+    res.json(post);
   } catch (e) {
     console.error(e);
   }

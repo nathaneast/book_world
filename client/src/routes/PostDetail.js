@@ -1,9 +1,14 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { Col, Container, Row } from "reactstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { Col, Container, Row, Button } from "reactstrap";
+import { POST_DELETE_REQUEST } from "../redux/types";
 
 const PostDetail = () => {
+  const { userId } = useSelector((state) => state.auth);
   const { postDetail } = useSelector((state) => state.post);
+
+  const dispatch = useDispatch();
+
   const {
     authors,
     bookTitle,
@@ -18,9 +23,23 @@ const PostDetail = () => {
     publisher,
     title,
     views,
+    _id: postId
   } = postDetail;
 
-  console.log(postDetail);
+  const deletePost = () => {
+    console.log(postDetail._id, 'postDetail id')
+    dispatch({
+      type: POST_DELETE_REQUEST,
+      payload: postId
+    })
+  };
+
+  const creatorMenu = (
+    <Row>
+      <Button>수정</Button>
+      <Button onClick={deletePost}>삭제</Button>
+    </Row>
+  );
 
   /* 
   나 => 수정, 삭제 버튼
@@ -75,6 +94,7 @@ const PostDetail = () => {
       <Row>
         <Col>내용: {contents}</Col>
       </Row>
+      {userId === creator._id ? creatorMenu : ""}
       <Row>
         <Col>
           댓글:
