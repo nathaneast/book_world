@@ -165,6 +165,7 @@ export default function (state = initialState, action) {
         ...state,
         searchTerm: action.payload.searchTerm,
         searchResult: action.payload.searchResult,
+        selectedCategory: "",
         loading: false,
       };
     case SEARCH_FAILURE:

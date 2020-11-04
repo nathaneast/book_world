@@ -238,7 +238,7 @@ function* search(action) {
       type: SEARCH_SUCCESS,
       payload: result.data,
     });
-    yield put(push(`search/${action.payload}`));
+    yield put(push(`/search/${action.payload}`));
   } catch (e) {
     yield put({
       type: SEARCH_FAILURE,
