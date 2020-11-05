@@ -99,7 +99,7 @@ const PostEdit = () => {
           <Label for="category">책 카테고리를 골라 주세요</Label>
           <Input
             type="select"
-            value={categoryName}
+            value={form.category}
             name="category"
             id="category"
             onChange={onChange}

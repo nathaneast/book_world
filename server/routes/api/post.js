@@ -152,7 +152,7 @@ router.post("/", auth, async (req, res) => {
   }
 });
 
-router.delete("/:id", auth , async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   try {
     await Post.deleteMany({ _id: req.params.id });
     await User.findByIdAndUpdate(req.user.id, {
@@ -168,9 +168,9 @@ router.delete("/:id", auth , async (req, res) => {
     );
 
     if (CategoryUpdateResult.posts.length === 0) {
-      await Category.deleteMany({ _id: CategoryUpdateResult });
+      await Category.deleteMany({ _id: CategoryUpdateResult._id });
     }
-  
+
     return res.json({ success: true });
   } catch (e) {
     console.error(e);
@@ -179,58 +179,68 @@ router.delete("/:id", auth , async (req, res) => {
 
 router.post("/:id/edit", auth, async (req, res) => {
   try {
-    const { 
-      bookTitle, title, category, part, page, contents, id
-    } = req.body;
+    const { bookTitle, title, category, part, page, contents, id } = req.body;
 
-    const beforePost = await Post.findById(id)
-    // .populate("category", "categoryName");
-    console.log(beforePost, 'beforePost');
+    const beforePost = await Post.findById(id);
 
-    const editCategory = await Category.findOne({
-      categoryName: category
-    })
+    let editCategory = await Category.findOne({
+      categoryName: category,
+    });
 
-    // const beforeCategory = postResult.selectedCategory;
+    if (!editCategory) {
+      editCategory = await Category.create({
+        categoryName: category,
+      });
+    }
+    console.log(editCategory, "editCategory");
 
     const updatePost = await Post.findByIdAndUpdate(id, {
-      bookTitle ,title ,category: editCategory._id ,part ,page ,contents
-    })
-    // .populate("creator", "name email")
-    // .populate("category", "categoryName");
-
+      bookTitle,
+      title,
+      category: editCategory._id,
+      part,
+      page,
+      contents,
+    });
 
     if (beforePost.category !== updatePost.category) {
       const CategoryUpdateResult = await Category.findByIdAndUpdate(
         beforePost.category,
-        { $pull: { posts: id } }
+        { $pull: { posts: id } },
+        { new: true }
       );
 
       if (CategoryUpdateResult.posts.length === 0) {
-        await Category.deleteMany({ _id: CategoryUpdateResult });
+        await Category.deleteMany({ _id: CategoryUpdateResult._id });
       }
 
-      const findCategory = await Category.findOne({
-        categoryName: category,
+      await Category.findByIdAndUpdate(editCategory._id, {
+        $push: {
+          posts: id,
+        },
       });
 
-      if (findCategory) {
-        await Category.findByIdAndUpdate(findCategory._id, {
-          $push: {
-            posts: id,
-          },
-        });
-      } else {
-        const newCategory = await Category.create({
-          categoryName: category,
-        });
+      // const findCategory = await Category.findOne({
+      //   categoryName: category,
+      // });
 
-        await Category.findByIdAndUpdate(newCategory._id, {
-          $push: {
-            posts: id,
-          },
-        });
-      }
+      // if (findCategory) {
+      //   await Category.findByIdAndUpdate(findCategory._id, {
+      //     $push: {
+      //       posts: id,
+      //     },
+      //   });
+      // } else {
+      //   const newCategory = await Category.create({
+      //     categoryName: category,
+      //   });
+
+      //   await Category.findByIdAndUpdate(newCategory._id, {
+      //     $push: {
+      //       posts: id,
+      //     },
+      //   });
+      // }
     }
 
     res.json(updatePost);
