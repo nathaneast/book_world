@@ -181,7 +181,9 @@ router.post("/:id/edit", auth, async (req, res) => {
   try {
     const { bookTitle, title, category, part, page, contents, id } = req.body;
 
-    const beforePost = await Post.findById(id);
+    const beforePost = await Post.findById(id)
+    .populate("category", "categoryName");
+    console.log(beforePost, 'beforePost');
 
     let editCategory = await Category.findOne({
       categoryName: category,
@@ -201,11 +203,18 @@ router.post("/:id/edit", auth, async (req, res) => {
       part,
       page,
       contents,
-    });
+    }, { new: true })
+    .populate("category", "categoryName")
+    .populate("creator", "name email");
 
-    if (beforePost.category !== updatePost.category) {
+    console.log(updatePost, 'updatePost');
+
+    console.log(beforePost.category.categoryName, updatePost.category.categoryName, '비포,업데이트 카테고리 아이디')
+    console.log(beforePost.category.categoryName !== updatePost.category.categoryName, '두 카테고리 비교')
+    if (beforePost.category.categoryName !== updatePost.category.categoryName) {
+      console.log('비포, 업데이트 포스트 달라서 들어옴')
       const CategoryUpdateResult = await Category.findByIdAndUpdate(
-        beforePost.category,
+        beforePost.category._id,
         { $pull: { posts: id } },
         { new: true }
       );
@@ -219,28 +228,6 @@ router.post("/:id/edit", auth, async (req, res) => {
           posts: id,
         },
       });
-
-      // const findCategory = await Category.findOne({
-      //   categoryName: category,
-      // });
-
-      // if (findCategory) {
-      //   await Category.findByIdAndUpdate(findCategory._id, {
-      //     $push: {
-      //       posts: id,
-      //     },
-      //   });
-      // } else {
-      //   const newCategory = await Category.create({
-      //     categoryName: category,
-      //   });
-
-      //   await Category.findByIdAndUpdate(newCategory._id, {
-      //     $push: {
-      //       posts: id,
-      //     },
-      //   });
-      // }
     }
 
     res.json(updatePost);

@@ -320,12 +320,13 @@ function* editPost(action) {
       type: POST_EDIT_SUCCESS,
       payload: result.data,
     });
-    yield put(push(`/post:${result.data._id}`));
+    yield put(push(`/post/${result.data._id}`));
   } catch (e) {
     yield put({
       type: POST_EDIT_FAILURE,
       payload: e.response,
     });
+    yield put(push("/"));
   }
 }
 
