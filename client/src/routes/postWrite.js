@@ -57,6 +57,7 @@ const PostWrite = () => {
     const { title, category, part, page, contents } = form;
     if (!contents || !category) {
       alert("빈 값을 입력 해주세요");
+      return;
     }
     const token = localStorage.getItem("token");
     const body = {

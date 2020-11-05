@@ -26,23 +26,25 @@ const PostDetail = () => {
     _id: postId
   } = postDetail;
 
-  const deletePost = () => {
+  const onDeletelick = () => {
     console.log(postDetail._id, 'postDetail id')
     dispatch({
       type: POST_DELETE_REQUEST,
-      payload: postId
-    })
+      payload: {
+        id: postId,
+        token: localStorage.getItem("token"),
+      },
+    });
   };
 
   const creatorMenu = (
     <Row>
-      <Button>수정</Button>
-      <Button onClick={deletePost}>삭제</Button>
+        <Button>수정</Button>
+        <Button onClick={onDeletelick}>삭제</Button>
     </Row>
   );
 
   /* 
-  나 => 수정, 삭제 버튼
   다른 사용자 => 댓글 가능
   게스트 => 댓글 불가
   */

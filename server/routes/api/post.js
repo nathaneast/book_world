@@ -49,7 +49,7 @@ router.get("/skip/:categoryName", async (req, res) => {
           ],
         });
       console.log(categoryPosts, "셀렉 이외 result");
-      res.json(categoryPosts.posts);
+      res.json(categoryPosts ? categoryPosts.posts : []);
     }
   } catch (e) {
     console.error(e);
@@ -152,12 +152,26 @@ router.post("/", auth, async (req, res) => {
   }
 });
 
-router.get("/delete/:id", async (req, res) => {
+router.delete("/:id",auth , async (req, res) => {
   try {
-    const post = await Post.deleteOne({
-      _id: req.params.id
+    await Post.deleteMany({ _id: req.params.id });
+    await User.findByIdAndUpdate(req.user.id, {
+      $pull: {
+        posts: req.params.id,
+        // comments: { post_id: req.params.id },
+      },
     });
-    res.json(post);
+    const CategoryUpdateResult = await Category.findOneAndUpdate(
+      { posts: req.params.id },
+      { $pull: { posts: req.params.id } },
+      { new: true }
+    );
+
+    if (CategoryUpdateResult.posts.length === 0) {
+      await Category.deleteMany({ _id: CategoryUpdateResult });
+    }
+  
+    return res.json({ success: true });
   } catch (e) {
     console.error(e);
   }

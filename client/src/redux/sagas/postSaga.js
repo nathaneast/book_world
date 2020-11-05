@@ -255,32 +255,42 @@ function* watchSearch() {
   yield takeEvery(SEARCH_REQUEST, search);
 }
 
-// post Delete
+// delete Post
 
-const postDeleteAPI = (payload) => {
-  return axios.get(`api/post/Delete/${payload}`);
+const dletePostAPI = (payload) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const token = payload.token;
+
+  if (token) {
+    config.headers["x-auth-token"] = token;
+  }
+
+  return axios.delete(`api/post/${payload.id}`, config);
 };
 
-function* postDelete(action) {
+function* deletePost(action) {
   try {
-    const result = yield call(postDeleteAPI, action.payload);
-    console.log(result, "postDelete 결과 값");
+    const result = yield call(dletePostAPI, action.payload);
+    console.log(result, "DeletePost 결과 값");
     yield put({
-      type: postDelete_SUCCESS,
+      type: POST_DELETE_SUCCESS,
       payload: result.data,
     });
-    yield put(push(`/postDelete/${action.payload}`));
+    yield put(push("/"));
   } catch (e) {
     yield put({
-      type: postDelete_FAILURE,
+      type: POST_DETAIL_FAILURE,
       payload: e.response,
     });
-    yield put(push("/"));
   }
 }
 
-function* watchPostDelete() {
-  yield takeEvery(POST_DELETE_REQUEST, postDelete);
+function* watchDeletePost() {
+  yield takeEvery(POST_DELETE_REQUEST, deletePost);
 }
 
 export default function* postSaga() {
@@ -293,6 +303,6 @@ export default function* postSaga() {
     fork(watchLoadingCategory),
     fork(watchSelectCategory),
     fork(watchSearch),
-    fork(watchPostDelete),
+    fork(watchDeletePost),
   ]);
 }

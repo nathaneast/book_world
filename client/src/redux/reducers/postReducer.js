@@ -9,7 +9,6 @@ import {
   POST_UPLOADING_SUCCESS,
   POST_UPLOADING_FAILURE,
   POST_LOADING_REQUEST,
-  POST_LOADING_SUCCESS,
   POST_LOADING_FAILURE,
   POST_DETAIL_REQUEST,
   POST_DETAIL_SUCCESS,
@@ -26,6 +25,7 @@ import {
   POST_DELETE_REQUEST,
   POST_DELETE_SUCCESS,
   POST_DELETE_FAILURE,
+  POST_LOADING_SUCCESS,
 } from "../types";
 
 const initialState = {
@@ -79,21 +79,19 @@ export default function (state = initialState, action) {
         selectedSearchBook: action.payload,
         loading: false,
       };
-    case POST_UPLOADING_REQUEST:
-    case POST_LOADING_REQUEST:
-      return {
+      case POST_UPLOADING_REQUEST:
+        return {
         ...state,
         loading: true,
-        // posts: [],
+        searchBookTerm: "",
+        searchBookResult: "",
+        selectedSearchBook: "",
       };
     case POST_UPLOADING_SUCCESS:
       return {
         ...state,
         postDetail: action.payload,
         loading: false,
-        searchBookTerm: "",
-        searchBookResult: "",
-        selectedSearchBook: "",
       };
     case POST_UPLOADING_FAILURE:
       return {
@@ -101,6 +99,12 @@ export default function (state = initialState, action) {
         error: action.payload,
         loading: false,
       };
+      case POST_LOADING_REQUEST:
+        return {
+          ...state,
+          loading: true,
+          // posts: [],
+        };
     case POST_LOADING_SUCCESS:
       return {
         ...state,
