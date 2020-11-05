@@ -9,6 +9,7 @@ import AppNavBar from "../components/AppNavBar";
 import Category from "../components/Category";
 import PostWrite from "./postWrite";
 import PostDetail from "./PostDetail";
+import PostEdit from "./PostEdit";
 import Search from "./Search";
 
 const MyRouter = () => (
@@ -21,6 +22,7 @@ const MyRouter = () => (
         <Route path="/" exact component={PostCardList} />
         <Route path="/postWrite" exact component={PostWrite} />
         <Route path="/post/:id" exact component={PostDetail} />
+        <Route path="/post/:id/edit" exact component={PostEdit} />
         <Route path="/search/:searchTerm" exact component={Search} />
         <Redirect from="*" to="/" />
       </Switch>
