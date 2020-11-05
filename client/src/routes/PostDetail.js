@@ -27,7 +27,7 @@ const PostDetail = () => {
     _id: postId
   } = postDetail;
 
-  const onDeletelick = () => {
+  const onDeleteClick = () => {
     console.log(postDetail._id, 'postDetail id')
     dispatch({
       type: POST_DELETE_REQUEST,
@@ -43,7 +43,7 @@ const PostDetail = () => {
       <Link to={`/post/${postId}/edit`} className="btn btn-success">
         수정
       </Link>
-      <Button onClick={onDeletelick}>삭제</Button>
+      <Button onClick={onDeleteClick}>삭제</Button>
     </Row>
   );
 
@@ -53,6 +53,11 @@ const PostDetail = () => {
   */
   return (
     <Container>
+      <Row>
+        <Link to="/" className="btn btn-danger">
+          홈으로
+        </Link>
+      </Row>
       <Row>
         <Col>책 제목: {bookTitle}</Col>
       </Row>

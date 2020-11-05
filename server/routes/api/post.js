@@ -183,7 +183,6 @@ router.post("/:id/edit", auth, async (req, res) => {
 
     const beforePost = await Post.findById(id)
     .populate("category", "categoryName");
-    console.log(beforePost, 'beforePost');
 
     let editCategory = await Category.findOne({
       categoryName: category,
@@ -194,7 +193,6 @@ router.post("/:id/edit", auth, async (req, res) => {
         categoryName: category,
       });
     }
-    console.log(editCategory, "editCategory");
 
     const updatePost = await Post.findByIdAndUpdate(id, {
       bookTitle,
@@ -207,12 +205,7 @@ router.post("/:id/edit", auth, async (req, res) => {
     .populate("category", "categoryName")
     .populate("creator", "name email");
 
-    console.log(updatePost, 'updatePost');
-
-    console.log(beforePost.category.categoryName, updatePost.category.categoryName, '비포,업데이트 카테고리 아이디')
-    console.log(beforePost.category.categoryName !== updatePost.category.categoryName, '두 카테고리 비교')
     if (beforePost.category.categoryName !== updatePost.category.categoryName) {
-      console.log('비포, 업데이트 포스트 달라서 들어옴')
       const CategoryUpdateResult = await Category.findByIdAndUpdate(
         beforePost.category._id,
         { $pull: { posts: id } },

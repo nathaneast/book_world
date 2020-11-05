@@ -33,7 +33,6 @@ const authReducer = (state = initialState, action) => {
     case REGISTER_REQUEST:
     case LOGOUT_REQUEST:
     case USER_LOADING_REQUEST:
-      // case POST_WRITE_REQUEST:
       return {
         ...state,
         errorMsg: "",

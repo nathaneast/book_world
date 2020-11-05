@@ -283,6 +283,7 @@ function* deletePost(action) {
       type: POST_DELETE_SUCCESS,
       payload: result.data,
     });
+    alert('글 삭제를 완료 했습니다');
     yield put(push("/"));
   } catch (e) {
     yield put({
