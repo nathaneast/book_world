@@ -10,6 +10,7 @@ import {
   POST_UPLOADING_FAILURE,
   POST_LOADING_REQUEST,
   POST_LOADING_FAILURE,
+  POST_LOADING_SUCCESS,
   POST_DETAIL_REQUEST,
   POST_DETAIL_SUCCESS,
   POST_DETAIL_FAILURE,
@@ -25,7 +26,9 @@ import {
   POST_DELETE_REQUEST,
   POST_DELETE_SUCCESS,
   POST_DELETE_FAILURE,
-  POST_LOADING_SUCCESS,
+  POST_EDIT_REQUEST,
+POST_EDIT_SUCCESS,
+POST_EDIT_FAILURE,
 } from "../types";
 
 const initialState = {
@@ -196,6 +199,23 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case POST_DELETE_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+    case POST_EDIT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case POST_EDIT_SUCCESS:
+      return {
+        ...state,
+        postDetail: action.payload,
+        loading: false,
+      };
+    case POST_EDIT_FAILURE:
       return {
         ...state,
         error: action.payload,

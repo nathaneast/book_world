@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { Col, Container, Row, Button } from "reactstrap";
 import { POST_DELETE_REQUEST } from "../redux/types";
 
@@ -39,8 +40,10 @@ const PostDetail = () => {
 
   const creatorMenu = (
     <Row>
-        <Button>수정</Button>
-        <Button onClick={onDeletelick}>삭제</Button>
+      <Link to={`/post/${postId}/edit`} className="btn btn-success">
+        수정
+      </Link>
+      <Button onClick={onDeletelick}>삭제</Button>
     </Row>
   );
 

@@ -29,6 +29,9 @@ import {
   POST_DELETE_REQUEST,
   POST_DELETE_SUCCESS,
   POST_DELETE_FAILURE,
+  POST_EDIT_REQUEST,
+  POST_EDIT_SUCCESS,
+  POST_EDIT_FAILURE,
 } from "../types";
 import kakaoAPI from "../../kakaoAPI";
 
@@ -283,7 +286,7 @@ function* deletePost(action) {
     yield put(push("/"));
   } catch (e) {
     yield put({
-      type: POST_DETAIL_FAILURE,
+      type: POST_DELETE_FAILURE,
       payload: e.response,
     });
   }
@@ -291,6 +294,43 @@ function* deletePost(action) {
 
 function* watchDeletePost() {
   yield takeEvery(POST_DELETE_REQUEST, deletePost);
+}
+
+// edit Post
+
+const editPostAPI = (payload) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const token = payload.token;
+
+  if (token) {
+    config.headers["x-auth-token"] = token;
+  }
+  return axios.post(`api/post/${payload.id}/edit`, payload, config);
+};
+
+function* editPost(action) {
+  try {
+    const result = yield call(editPostAPI, action.payload);
+    console.log(result, "editPost 결과 값");
+    yield put({
+      type: POST_EDIT_SUCCESS,
+      payload: result.data,
+    });
+    yield put(push(`/post:${result.data._id}`));
+  } catch (e) {
+    yield put({
+      type: POST_EDIT_FAILURE,
+      payload: e.response,
+    });
+  }
+}
+
+function* watchEditPost() {
+  yield takeEvery(POST_EDIT_REQUEST, editPost);
 }
 
 export default function* postSaga() {
@@ -304,5 +344,6 @@ export default function* postSaga() {
     fork(watchSelectCategory),
     fork(watchSearch),
     fork(watchDeletePost),
+    fork(watchEditPost),
   ]);
 }
