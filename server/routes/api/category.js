@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
   try {
     const categoryFindResult = await Category.find();
     let category = ["전체"];
-    console.log(categoryFindResult, "categoryFindResult");
+    // console.log(categoryFindResult, "categoryFindResult");
 
     if (categoryFindResult.length) {
       const categoryNames = categoryFindResult.map(
@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
       );
       category = category.concat(categoryNames);
     }
-    console.log("응답 전 카테고리", category);
+    // console.log("응답 전 카테고리", category);
     res.json(category);
   } catch (e) {
     console.error(e);

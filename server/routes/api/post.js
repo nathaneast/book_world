@@ -229,13 +229,13 @@ router.post("/:id/edit", auth, async (req, res) => {
 
 router.get("/:id/comment", async (req, res) => {
   try {
-    const postComments = await Post.findById(req.params.id)
-    .populate({
-      path: "comments",
-      populate: "contents date creatorName",
-    });
-    console.log('해당 글 코멘트 불러오기', postComments);
-    res.json(postComments.comments);
+    console.log(req.params.id, 'GET comment')
+    const postResult = await Post.findById(req.params.id)
+    .populate("comments")
+
+    const result = postResult.comments;
+    console.log('해당 글 코멘트 ', result);
+    res.json(result);
   } catch (e) {
     console.error(e);
   }
@@ -244,8 +244,9 @@ router.get("/:id/comment", async (req, res) => {
 router.post("/:id/comment", async (req, res) => {
   try {
     const {
-      contents, token, postId, userId, userName
+      contents, postId, userId, userName
     } = req.body;
+    console.log(req.body, 'POST comment')
 
     const newComment = await Comment.create({
       contents,
@@ -261,15 +262,15 @@ router.post("/:id/comment", async (req, res) => {
       }
     });
 
-    const updateUser = await Post.findByIdAndUpdate(userId, {
+    const updateUser = await User.findByIdAndUpdate(userId, {
       $push: {
         comments: {
           post_id: postId,
-          comment_id: newComment,
+          comment_id: newComment._id,
         }
       }
     });
-
+    console.log(newComment, "POST comment NewComment");
     res.json(newComment);
   } catch (e) {
     console.error(e);

@@ -1,17 +1,20 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Row, Button, Form, FormGroup, Input, Container } from "reactstrap";
 
-import { COMMENT_UPLOADING_REQUEST } from "../../redux/types";
+import { COMMENT_LOADING_REQUEST, COMMENT_UPLOADING_REQUEST } from "../../redux/types";
 
 const Comment = ({ userId, userName, postId }) => {
   const dispatch = useDispatch();
   const [form, setValues] = useState({ contents: "" });
 
-  const onSubmit = async (e) => {
-    await e.preventDefault();
+  const onSubmit = (e) => {
+    e.preventDefault();
+    console.log("Comment Uploading Submit 실행됨")
     const { contents } = form;
     const body = { contents, postId, userId, userName };
+    console.log(body , "Comment Uploading Submit 바디")
+
     dispatch({
       type: COMMENT_UPLOADING_REQUEST,
       payload: body,
@@ -22,6 +25,13 @@ const Comment = ({ userId, userName, postId }) => {
 
   const resetValue = useRef(null);
 
+  useEffect(() => {
+    dispatch({
+      type: COMMENT_LOADING_REQUEST,
+      payload: postId,
+    });
+  }, [dispatch, postId]);
+
   const onChange = (e) => {
     setValues({
       ...form,
@@ -30,8 +40,8 @@ const Comment = ({ userId, userName, postId }) => {
   };
 
   return (
-    <Container>코멘트
-      {/* <Form >
+    <Container>
+      <Form onSubmit={onSubmit}>
         <FormGroup>
           <Row className="p-2">
             <div className="font-weight-bold m-1">Make Comment </div>
@@ -53,7 +63,7 @@ const Comment = ({ userId, userName, postId }) => {
             </Button>
           </Row>
         </FormGroup>
-      </Form> */}
+      </Form>
     </Container>
   );
 };

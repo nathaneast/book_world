@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Col, Container, Row, Button } from "reactstrap";
 
-import { COMMENT_LOADING_REQUEST, POST_DELETE_REQUEST } from "../redux/types";
+import { POST_DELETE_REQUEST } from "../redux/types";
 import Comment from "../components/comment/Comment";
 
 const PostDetail = () => {
@@ -29,13 +29,6 @@ const PostDetail = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch({
-      type: COMMENT_LOADING_REQUEST,
-      payload: postId,
-    });
-  }, [dispatch]);
-
   const onDeleteClick = () => {
     console.log(postDetail._id, 'postDetail id')
     dispatch({
@@ -56,10 +49,7 @@ const PostDetail = () => {
     </Row>
   );
 
-  /* 
-  다른 사용자 => 댓글 가능
-  게스트 => 댓글 불가
-  */
+  console.log(comments, "postDEtail comments");
 
   return (
     <Container>
@@ -119,10 +109,10 @@ const PostDetail = () => {
         <Col>
           댓글:
           {comments.map((comment) => (
-            <div>
-              <span key={comment._id}>
-                {(comment.creatorName, comment.date, comment.contents)}
-              </span>
+            <div key={comment._id}>
+              <span>날짜: {comment.date}</span>
+              <span>이름: {comment.creatorName}</span>
+              <span>내용: {comment.contents}</span>
             </div>
           ))}
         </Col>

@@ -10,17 +10,17 @@ import {
   COMMENT_UPLOADING_FAILURE,
 } from "../types";
 
-// Comment load
+// Comment loading
 
-const loadCommentAPI = (payload) => {
+const loadingCommentAPI = (payload) => {
   return axios.get(`/api/post/${payload}/comment`);
 };
 
-function* loadComment(action) {
+function* loadingComment(action) {
   try {
-    console.log('댓글 불러오기 페이로드',action.payload);
-    const result = yield call(loadCommentAPI, action.payload);
-    console.log("loadComment", result);
+    console.log('loadingComment 페이로드',action.payload);
+    const result = yield call(loadingCommentAPI, action.payload);
+    console.log("loadingComment", result);
     yield put({
       type: COMMENT_LOADING_SUCCESS,
       payload: result.data,
@@ -33,8 +33,8 @@ function* loadComment(action) {
   }
 }
 
-function* watchLoadComment() {
-  yield takeEvery(COMMENT_LOADING_REQUEST, loadComment);
+function* watchLoadingComment() {
+  yield takeEvery(COMMENT_LOADING_REQUEST, loadingComment);
 }
 
 // Comment Upload
@@ -44,7 +44,7 @@ const uploadCommentAPI = (payload) => {
 };
 
 function* uploadComment(action) {
-  console.log('업로딩코멘트 페이로드',action.payload)
+  console.log('uploadComment 페이로드',action.payload)
   try {
     const result = yield call(uploadCommentAPI, action.payload);
     console.log("uploadComment", result);
@@ -66,7 +66,7 @@ function* watchUploadComment() {
 
 export default function* commentSaga() {
   yield all([
+    fork(watchLoadingComment),
     fork(watchUploadComment),
-    fork(watchLoadComment),
   ]);
 }

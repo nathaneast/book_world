@@ -25,11 +25,13 @@ const commentReduer = (state = initialState, action) => {
       return {
         ...state,
        comments: action.payload,
+       loading: false,
       };
     case COMMENT_LOADING_FAILURE:
       return {
         ...state,
         error: action.payload,
+       loading: false,
       };
     case COMMENT_UPLOADING_REQUEST:
       return {
@@ -40,11 +42,13 @@ const commentReduer = (state = initialState, action) => {
       return {
         ...state,
        comments: [...state.comments, action.payload],
+       loading: false,
       };
     case COMMENT_UPLOADING_FAILURE:
       return {
         ...state,
         error: action.payload,
+       loading: false,
       };
     default:
       return state;
