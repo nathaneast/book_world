@@ -22,6 +22,7 @@ const initialState = {
   isLoading: false,
   user: "",
   userId: "",
+  userName: "",
   errorMsg: "",
   successMsg: "",
   previousMatchMsg: "",

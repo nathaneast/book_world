@@ -1,20 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Col, Container, Row, Button } from "reactstrap";
-import { POST_DELETE_REQUEST } from "../redux/types";
+
+import { COMMENT_LOADING_REQUEST, POST_DELETE_REQUEST } from "../redux/types";
+import Comment from "../components/comment/Comment";
 
 const PostDetail = () => {
-  const { userId } = useSelector((state) => state.auth);
+  const { isAuthenticated, userId, userName } = useSelector((state) => state.auth);
   const { postDetail } = useSelector((state) => state.post);
-
-  const dispatch = useDispatch();
+  const { comments } = useSelector((state) => state.comment);
 
   const {
     authors,
     bookTitle,
     category,
-    comments,
     contents,
     creator,
     date,
@@ -26,6 +26,15 @@ const PostDetail = () => {
     views,
     _id: postId
   } = postDetail;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({
+      type: COMMENT_LOADING_REQUEST,
+      payload: postId,
+    });
+  }, [dispatch]);
 
   const onDeleteClick = () => {
     console.log(postDetail._id, 'postDetail id')
@@ -51,6 +60,7 @@ const PostDetail = () => {
   다른 사용자 => 댓글 가능
   게스트 => 댓글 불가
   */
+
   return (
     <Container>
       <Row>
@@ -108,11 +118,20 @@ const PostDetail = () => {
       <Row>
         <Col>
           댓글:
-          {comments.map((comment, i) => (
-            <span key={i}>{comment}</span>
+          {comments.map((comment) => (
+            <div>
+              <span key={comment._id}>
+                {(comment.creatorName, comment.date, comment.contents)}
+              </span>
+            </div>
           ))}
         </Col>
       </Row>
+      {isAuthenticated ? (
+        <Comment userId={userId} userName={userName} postId={postId} />
+      ) : (
+        ""
+      )}
     </Container>
   );
 };

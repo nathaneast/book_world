@@ -5,10 +5,9 @@ import auth from "../../middleware/auth";
 import Category from "../../models/category";
 import Post from "../../models/post";
 import User from "../../models/user";
+import Comment from "../../models/comment";
 
 const router = express.Router();
-
-// api/posts
 
 router.get("/", async (req, res) => {
   const postFindResult = await Post.find();
@@ -17,7 +16,6 @@ router.get("/", async (req, res) => {
 });
 
 // 무한스크롤 페이지네이션 나중에 구현
-// 코멘트 추가되면 넣어야함
 // 전체 이외 카테고리 최신순 정렬 구현
 router.get("/skip/:categoryName", async (req, res) => {
   try {
@@ -49,7 +47,7 @@ router.get("/skip/:categoryName", async (req, res) => {
           ],
         });
       console.log(categoryPosts, "셀렉 이외 result");
-      res.json(categoryPosts ? categoryPosts.posts : []);
+      res.json(categoryPosts);
     }
   } catch (e) {
     console.error(e);
@@ -224,6 +222,55 @@ router.post("/:id/edit", auth, async (req, res) => {
     }
 
     res.json(updatePost);
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+router.get("/:id/comment", async (req, res) => {
+  try {
+    const postComments = await Post.findById(req.params.id)
+    .populate({
+      path: "comments",
+      populate: "contents date creatorName",
+    });
+    console.log('해당 글 코멘트 불러오기', postComments);
+    res.json(postComments.comments);
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+router.post("/:id/comment", async (req, res) => {
+  try {
+    const {
+      contents, token, postId, userId, userName
+    } = req.body;
+
+    const newComment = await Comment.create({
+      contents,
+      post: postId,
+      creator: userId,
+      creatorName: userName,
+      date: moment().format("YYYY-MM-DD hh:mm:ss"),
+    });
+
+    const updatePost = await Post.findByIdAndUpdate(postId, {
+      $push: {
+        comments: newComment._id,
+      }
+    });
+
+    const updateUser = await Post.findByIdAndUpdate(userId, {
+      $push: {
+        comments: {
+          post_id: postId,
+          comment_id: newComment,
+        }
+      }
+    });
+
+    res.json(newComment);
   } catch (e) {
     console.error(e);
   }

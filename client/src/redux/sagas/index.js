@@ -3,6 +3,7 @@ import axios from "axios";
 
 import authSaga from "./authSaga";
 import postSaga from "./postSaga";
+import commentSaga from "./commentSaga";
 
 import config from "../../config";
 const { REACT_APP_BASIC_SERVER_URL } = config;
@@ -13,5 +14,6 @@ export default function* rootSaga() {
   yield all([
     fork(authSaga),
     fork(postSaga),
+    fork(commentSaga),
   ]);
 }

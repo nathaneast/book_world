@@ -21,8 +21,6 @@ const PostCardOne = ({ posts }) => {
     });
   };
 
-  console.log(posts, "PostCardOne posts");
-
   const postCards = (
     <>
     {Array.isArray(posts)
@@ -43,7 +41,6 @@ const PostCardOne = ({ posts }) => {
     </>
     );
   
-
   const emptyPostCards = <div>글이 없습니다.</div>;
 
   // 로딩 넣어야함
