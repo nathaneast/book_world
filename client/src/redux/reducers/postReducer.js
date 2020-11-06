@@ -27,15 +27,18 @@ import {
   POST_DELETE_SUCCESS,
   POST_DELETE_FAILURE,
   POST_EDIT_REQUEST,
-POST_EDIT_SUCCESS,
-POST_EDIT_FAILURE,
+  POST_EDIT_SUCCESS,
+  POST_EDIT_FAILURE,
+  MYPOSTS_LOADING_REQUEST,
+  MYPOSTS_LOADING_SUCCESS,
+  MYPOSTS_LOADING_FAILURE,
 } from "../types";
 
 const initialState = {
   isAuthenticated: null,
   posts: [],
   postDetail: "",
-  postCount: 0,
+  // postCount: 0,
   loading: false,
   error: "",
   // creatorId: "",
@@ -47,6 +50,7 @@ const initialState = {
   searchBookTerm: "",
   searchBookResult: "",
   selectedSearchBook: "",
+  myPosts: "",
 };
 
 export default function (state = initialState, action) {
@@ -216,6 +220,24 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case POST_EDIT_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+    case MYPOSTS_LOADING_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case MYPOSTS_LOADING_SUCCESS:
+      return {
+        ...state,
+        myPosts: action.payload,
+        selectedCategory: "",
+        loading: false,
+      };
+    case MYPOSTS_LOADING_FAILURE:
       return {
         ...state,
         error: action.payload,

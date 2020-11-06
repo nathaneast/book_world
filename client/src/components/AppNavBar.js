@@ -19,7 +19,7 @@ import { LOGOUT_REQUEST } from "../redux/types";
 
 const AppNavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const { isAuthenticated, userName, userId } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
@@ -45,17 +45,17 @@ const AppNavBar = () => {
         </Form>
       </NavItem>
       <NavItem className="d-flex justify-content-center">
-        <Form className="col mt-2">
-          {user && user.name ? (
+        { userName ? (
+          <Link to={`myPosts/${userId}`}>
             <Button outline color="light" className="px-3" block>
-              <strong>{user.name}</strong>
+              <strong>{userName}</strong>
             </Button>
-          ) : (
-            <Button outline color="light" className="px-3" block>
-              <strong>No User</strong>
-            </Button>
-          )}
-        </Form>
+          </Link>
+        ) : (
+          <Button outline color="light" className="px-3" block>
+            <strong>No User</strong>
+          </Button>
+        )}
       </NavItem>
       <NavItem>
         <Form className="col mt-2">

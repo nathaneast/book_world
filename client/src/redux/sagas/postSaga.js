@@ -32,6 +32,9 @@ import {
   POST_EDIT_REQUEST,
   POST_EDIT_SUCCESS,
   POST_EDIT_FAILURE,
+  MYPOSTS_LOADING_REQUEST,
+  MYPOSTS_LOADING_SUCCESS,
+  MYPOSTS_LOADING_FAILURE,
 } from "../types";
 import kakaoAPI from "../../kakaoAPI";
 
@@ -335,6 +338,32 @@ function* watchEditPost() {
   yield takeEvery(POST_EDIT_REQUEST, editPost);
 }
 
+// loading myPosts
+
+const loadingMyPostsAPI = (payload) => {
+  return axios.get(`api/post/${payload}/myPosts`);
+};
+
+function* loadingMyPosts(action) {
+  try {
+    const result = yield call(loadingMyPostsAPI, action.payload);
+    console.log(result, "LoadingMyPosts 결과 값");
+    yield put({
+      type:  MYPOSTS_LOADING_SUCCESS,
+      payload: result.data,
+    });
+  } catch (e) {
+    yield put({
+      type:  MYPOSTS_LOADING_FAILURE,
+      payload: e.response,
+    });
+  }
+}
+
+function* watchLoadingMyPosts() {
+  yield takeEvery(MYPOSTS_LOADING_REQUEST, loadingMyPosts);
+}
+
 export default function* postSaga() {
   yield all([
     fork(watchSearchBook),
@@ -347,5 +376,6 @@ export default function* postSaga() {
     fork(watchSearch),
     fork(watchDeletePost),
     fork(watchEditPost),
+    fork(watchLoadingMyPosts),
   ]);
 }

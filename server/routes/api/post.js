@@ -256,13 +256,13 @@ router.post("/:id/comment", async (req, res) => {
       date: moment().format("YYYY-MM-DD hh:mm:ss"),
     });
 
-    const updatePost = await Post.findByIdAndUpdate(postId, {
+    await Post.findByIdAndUpdate(postId, {
       $push: {
         comments: newComment._id,
       }
     });
 
-    const updateUser = await User.findByIdAndUpdate(userId, {
+    await User.findByIdAndUpdate(userId, {
       $push: {
         comments: {
           post_id: postId,
@@ -270,8 +270,34 @@ router.post("/:id/comment", async (req, res) => {
         }
       }
     });
+
     console.log(newComment, "POST comment NewComment");
     res.json(newComment);
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+router.get("/:id/myPosts", async (req, res) => {
+  try {
+    const userPosts = await User.findById(req.params.id)
+    .populate("posts", "bookTitle title");
+    // .populate({
+    //   path: "posts",
+    //   populate: [
+    //     {
+    //       path: "creator",
+    //       select: "name email",
+    //     },
+    //     {
+    //       path: "category",
+    //       select: "categoryName",
+    //     },
+    //   ],
+    // });
+
+    console.log(userPosts, 'userPosts');
+    res.json(userPosts);
   } catch (e) {
     console.error(e);
   }
