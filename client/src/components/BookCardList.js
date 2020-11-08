@@ -11,7 +11,8 @@ import {
 } from "reactstrap";
 import { SELECT_BOOK_REQUEST } from "../redux/types";
 
-const BookCardList = ({ bookName, books, selectedBook, loading }) => {
+const BookCardList = ({ bookName, books, selectedBook }) => {
+  console.log(bookName, books, selectedBook, 'BookCardList')
   const [modal, setModal] = useState(false);
 
   const dispatch = useDispatch();
@@ -32,12 +33,12 @@ const BookCardList = ({ bookName, books, selectedBook, loading }) => {
     const currentBookKey = Number(e.currentTarget.dataset.key);
     dispatch({
       type: SELECT_BOOK_REQUEST,
-      payload: searchBookResult[currentBookKey],
+      payload: books[currentBookKey],
     });
   };
 
   // Card 레이아웃 , hover 작업 필요
-  const viewBooks = searchBookResult.map((book, index) => (
+  const viewBooks = books.map((book, index) => (
     <Card key={book.isbn} className="m-2" data-key={index} onClick={onClick}>
       <CardImg src={book.thumbnail} width="150px" height="220px" />
       <CardTitle>
@@ -48,7 +49,7 @@ const BookCardList = ({ bookName, books, selectedBook, loading }) => {
     </Card>
   ));
 
-  
+
 
   // 모달 꾸미기
   return (

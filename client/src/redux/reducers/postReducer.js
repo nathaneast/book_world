@@ -46,11 +46,11 @@ const initialState = {
   selectedCategory: "전체",
   // title: "",
   searchTerm: "",
-  searchResult: "",
+  searchResult: [],
   searchBookTerm: "",
   searchBookResult: "",
   selectedSearchBook: "",
-  myPosts: "",
+  myPosts: [],
 };
 
 export default function (state = initialState, action) {
@@ -173,7 +173,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         searchTerm: "",
-        searchResult: "",
+        searchResult: [],
         loading: true,
       };
     case SEARCH_SUCCESS:
@@ -226,7 +226,7 @@ export default function (state = initialState, action) {
     case MYPOSTS_LOADING_REQUEST:
       return {
         ...state,
-        myPosts: "",
+        myPosts: [],
         loading: true,
       };
     case MYPOSTS_LOADING_SUCCESS:

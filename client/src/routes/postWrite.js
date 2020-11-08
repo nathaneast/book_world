@@ -14,6 +14,7 @@ import {
 } from "reactstrap";
 
 import BookCardList from "../components/BookCardList";
+import { GrowingSpinner } from "../components/Spinner";
 import { SEARCH_BOOK_REQUEST, POST_UPLOADING_REQUEST } from "../redux/types";
 
 const PostWrite = () => {
@@ -28,7 +29,7 @@ const PostWrite = () => {
 
   const dispatch = useDispatch();
 
-  const { searchBookResult, selectedBook, loading } = useSelector(
+  const { searchBookResult, selectedSearchBook, loading } = useSelector(
     (state) => state.post
   );
 
@@ -160,17 +161,17 @@ const PostWrite = () => {
     </>
   );
 
+  console.log(form,searchBookResult,selectedSearchBook,'postWrite')
   return (
     <div>
       {selectedSearchBook ? postWriteForm : searchBook}
-      {searchBookResult && (
+      {searchBookResult && (loading ? GrowingSpinner : (
         <BookCardList
           bookName={form.bookTitle}
           books={searchBookResult}
           selectedBook={selectedSearchBook}
-          loading
         />
-      )}
+      ))}
     </div>
   );
 };
