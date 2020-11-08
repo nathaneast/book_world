@@ -110,7 +110,6 @@ export default function (state = initialState, action) {
         return {
           ...state,
           loading: true,
-          posts: [],
         };
     case POST_LOADING_SUCCESS:
       return {

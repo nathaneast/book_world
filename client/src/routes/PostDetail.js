@@ -5,10 +5,11 @@ import { Col, Container, Row, Button } from "reactstrap";
 
 import { POST_DELETE_REQUEST } from "../redux/types";
 import Comment from "../components/comment/Comment";
+import { GrowingSpinner } from "../components/Spinner";
 
 const PostDetail = () => {
   const { isAuthenticated, userId, userName } = useSelector((state) => state.auth);
-  const { postDetail } = useSelector((state) => state.post);
+  const { postDetail, loading } = useSelector((state) => state.post);
   const { comments } = useSelector((state) => state.comment);
 
   const {
@@ -49,9 +50,7 @@ const PostDetail = () => {
     </Row>
   );
 
-  console.log(comments, "postDEtail comments");
-
-  return (
+  const body = (
     <Container>
       <Row>
         <Link to="/" className="btn btn-danger">
@@ -123,6 +122,14 @@ const PostDetail = () => {
         ""
       )}
     </Container>
+  );
+
+  console.log(comments, "postDEtail comments");
+
+  return (
+    <>
+    {loading ? GrowingSpinner : body }
+    </>
   );
 };
 

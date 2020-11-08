@@ -7,7 +7,7 @@ import PostCardOne from "../components/PostCardOne";
 const PostCardList = () => {
   const dispatch = useDispatch();
 
-  const { posts, selectedCategory } = useSelector((state) => state.post);
+  const { posts, selectedCategory, loading } = useSelector((state) => state.post);
 
   // useEffect selectedCategory 넣으면 렌더링이 2번 됨
   // selectedCategory 바뀌면 posts 바꿔서 자동 리렌더링되게 바꿔야함
@@ -21,7 +21,7 @@ const PostCardList = () => {
   console.log(posts, selectedCategory, 'PostCardList')
 
   return (
-    <PostCardOne posts={posts} />
+    <PostCardOne posts={posts} loading={loading} />
   );
 };
 

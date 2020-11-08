@@ -87,7 +87,6 @@ function* selectBook(action) {
       },
     });
     yield put(push(`/error`));
-    yield put(push(`/error`));
   }
 }
 

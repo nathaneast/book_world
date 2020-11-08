@@ -4,12 +4,12 @@ import { Container, Row } from "reactstrap";
 import PostCardOne from "../components/PostCardOne";
 
 const Search = () => {
-  const { searchTerm, searchResult } = useSelector((state) => state.post);
+  const { searchTerm, searchResult, loading } = useSelector((state) => state.post);
   
   return (
     <Container>
       <Row>내가 검색한 책: {searchTerm}</Row>
-      <PostCardOne posts={searchResult} />
+      <PostCardOne posts={searchResult} loading={loading} />
     </Container>
   );
 };

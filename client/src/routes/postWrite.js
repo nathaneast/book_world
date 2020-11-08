@@ -13,7 +13,7 @@ import {
   CardImg,
 } from "reactstrap";
 
-import BookCardList from "../components/post/BookCardList";
+import BookCardList from "../components/BookCardList";
 import { SEARCH_BOOK_REQUEST, POST_UPLOADING_REQUEST } from "../redux/types";
 
 const PostWrite = () => {
@@ -28,7 +28,7 @@ const PostWrite = () => {
 
   const dispatch = useDispatch();
 
-  const { searchBookResult, selectedSearchBook } = useSelector(
+  const { searchBookResult, selectedBook, loading } = useSelector(
     (state) => state.post
   );
 
@@ -163,7 +163,14 @@ const PostWrite = () => {
   return (
     <div>
       {selectedSearchBook ? postWriteForm : searchBook}
-      {searchBookResult && <BookCardList />}
+      {searchBookResult && (
+        <BookCardList
+          bookName={form.bookTitle}
+          books={searchBookResult}
+          selectedBook={selectedSearchBook}
+          loading
+        />
+      )}
     </div>
   );
 };

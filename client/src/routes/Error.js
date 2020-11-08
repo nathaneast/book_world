@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Container, Row } from "reactstrap";
-import PostCardOne from "../components/PostCardOne";
-import { MYPOSTS_LOADING_REQUEST } from "../redux/types";
+import React from "react";
+import { useSelector } from "react-redux";
+import { Container } from "reactstrap";
 
 const MyPosts = (req) => {
   const { error } = useSelector((state) => state.post);

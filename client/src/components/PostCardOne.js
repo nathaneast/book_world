@@ -8,9 +8,12 @@ import {
   CardBody,
   Row,
 } from "reactstrap";
-import { POST_DETAIL_REQUEST } from "../redux/types";
 
-const PostCardOne = ({ posts }) => {
+import { POST_DETAIL_REQUEST } from "../redux/types";
+import { GrowingSpinner } from "./Spinner";
+
+
+const PostCardOne = ({ posts, loading }) => {
   const dispatch = useDispatch();
 
   const onClick = (e) => {
@@ -41,13 +44,14 @@ const PostCardOne = ({ posts }) => {
     </>
     );
   
-  const emptyPostCards = <div>글이 없습니다.</div>;
+  
+  const viewPosts = (posts.length ? postCards : <div>글이 없습니다.</div>);
 
   // 로딩 넣어야함
   return (
-    <>
-      <Row>{posts.length ? postCards : emptyPostCards}</Row>
-    </>
+    <Row>
+      {loading ? GrowingSpinner : viewPosts}
+    </Row>
   );
 };
 
