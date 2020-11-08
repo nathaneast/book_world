@@ -18,7 +18,7 @@ const MyPosts = (req) => {
   return (
     <Container>
       <h2>내가 쓴 글</h2>
-      {myPosts.length ? <PostCardOne posts={myPosts} /> : ""}
+      {myPosts.length ? <PostCardOne posts={myPosts} /> : <div>글이 없습니다</div>}
     </Container>
   );
 };

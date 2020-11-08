@@ -110,7 +110,7 @@ export default function (state = initialState, action) {
         return {
           ...state,
           loading: true,
-          // posts: [],
+          posts: [],
         };
     case POST_LOADING_SUCCESS:
       return {
@@ -162,7 +162,6 @@ export default function (state = initialState, action) {
       return {
         ...state,
         selectedCategory: action.payload,
-        // posts: action.payload.posts,
         loading: false,
       };
     case CATEGORY_SELECT_FAILURE:
@@ -228,6 +227,7 @@ export default function (state = initialState, action) {
     case MYPOSTS_LOADING_REQUEST:
       return {
         ...state,
+        myPosts: "",
         loading: true,
       };
     case MYPOSTS_LOADING_SUCCESS:

@@ -46,11 +46,13 @@ const AppNavBar = () => {
       </NavItem>
       <NavItem className="d-flex justify-content-center">
         { userName ? (
+        <Form className="col mt-2">
           <Link to={`myPosts/${userId}`}>
             <Button outline color="light" className="px-3" block>
               <strong>{userName}</strong>
             </Button>
           </Link>
+        </Form>
         ) : (
           <Button outline color="light" className="px-3" block>
             <strong>No User</strong>

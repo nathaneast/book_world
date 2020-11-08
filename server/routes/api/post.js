@@ -47,7 +47,7 @@ router.get("/skip/:categoryName", async (req, res) => {
           ],
         });
       console.log(categoryPosts, "셀렉 이외 result");
-      res.json(categoryPosts);
+      res.json(categoryPosts.posts);
     }
   } catch (e) {
     console.error(e);
@@ -281,23 +281,23 @@ router.post("/:id/comment", async (req, res) => {
 router.get("/:id/myPosts", async (req, res) => {
   try {
     const userPosts = await User.findById(req.params.id)
-    .populate("posts", "bookTitle title");
-    // .populate({
-    //   path: "posts",
-    //   populate: [
-    //     {
-    //       path: "creator",
-    //       select: "name email",
-    //     },
-    //     {
-    //       path: "category",
-    //       select: "categoryName",
-    //     },
-    //   ],
-    // });
+    .populate({
+      path: "posts",
+      select: "bookTitle title part page authors publisher imageUrl contents views date",
+      populate: [
+        {
+          path: "creator",
+          select: "name email",
+        },
+        {
+          path: "category",
+          select: "categoryName",
+        },
+      ],
+    });
 
     console.log(userPosts, 'userPosts');
-    res.json(userPosts);
+    res.json(userPosts.posts);
   } catch (e) {
     console.error(e);
   }

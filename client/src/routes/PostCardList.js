@@ -18,7 +18,7 @@ const PostCardList = () => {
     });
   }, [dispatch, selectedCategory]);
 
-  console.log(posts, selectedCategory, '포스트카드리스트 리렌더링')
+  console.log(posts, selectedCategory, 'PostCardList')
 
   return (
     <PostCardOne posts={posts} />

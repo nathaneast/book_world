@@ -133,9 +133,9 @@ const loadingPostAPI = (payload) => {
 
 function* loadingPost(action) {
   try {
-    console.log(action.payload, "selectCategory");
+    console.log(action.payload, "loadingPost");
     const result = yield call(loadingPostAPI, action.payload ? action.payload : "전체");
-    console.log(result, "selectCategoryAPI 결과 값");
+    console.log(result, "loadingPostAPI 결과 값");
     yield put({
       type: POST_LOADING_SUCCESS,
       payload: result.data,
