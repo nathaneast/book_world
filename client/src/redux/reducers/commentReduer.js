@@ -10,7 +10,6 @@ import {
 const initialState = {
   comments: [],
   loading: false,
-  error: "",
 };
 
 const commentReduer = (state = initialState, action) => {
@@ -30,7 +29,6 @@ const commentReduer = (state = initialState, action) => {
     case COMMENT_LOADING_FAILURE:
       return {
         ...state,
-        error: action.payload,
        loading: false,
       };
     case COMMENT_UPLOADING_REQUEST:
@@ -47,7 +45,6 @@ const commentReduer = (state = initialState, action) => {
     case COMMENT_UPLOADING_FAILURE:
       return {
         ...state,
-        error: action.payload,
        loading: false,
       };
     default:

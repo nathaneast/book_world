@@ -54,11 +54,15 @@ function* searchBook(action) {
       type: SEARCH_BOOK_SUCCESS,
       payload: result.data.documents,
     });
-  } catch (e) {
+  } catch (err) {
     yield put({
       type: SEARCH_BOOK_FAILURE,
-      payload: e.response,
+      payload: {
+        message: err.response.data,
+        status: err.response.status,
+      },
     });
+    yield put(push(`/error`));
   }
 }
 
@@ -74,11 +78,16 @@ function* selectBook(action) {
       type: SELECT_BOOK_SUCCESS,
       payload: action.payload,
     });
-  } catch (e) {
+  } catch (err) {
     yield put({
       type: SELECT_BOOK_FAILURE,
-      payload: e.response,
+      payload: {
+        message: err.response.data,
+        status: err.response.status,
+      },
     });
+    yield put(push(`/error`));
+    yield put(push(`/error`));
   }
 }
 
@@ -112,12 +121,15 @@ function* uploadingPost(action) {
       payload: result.data,
     });
     yield put(push(`/post/${result.data._id}`));
-  } catch (e) {
+  } catch (err) {
     yield put({
       type: POST_UPLOADING_FAILURE,
-      payload: e.response,
+      payload: {
+        message: err.response.data,
+        status: err.response.status,
+      },
     });
-    yield put(push("/"));
+    yield put(push(`/error`));
   }
 }
 
@@ -133,7 +145,6 @@ const loadingPostAPI = (payload) => {
 
 function* loadingPost(action) {
   try {
-    // throw new Error('loadingPost error ! ! !')
     console.log(action.payload, "loadingPost");
     const result = yield call(loadingPostAPI, action.payload ? action.payload : "전체");
     console.log(result, "loadingPostAPI 결과 값");
@@ -141,13 +152,17 @@ function* loadingPost(action) {
       type: POST_LOADING_SUCCESS,
       payload: result.data,
     });
-  } catch (e) {
-    // console.log(e.stack, e.message, 'loadingPost catch');
+  } catch (err) {
     yield put({
       type: POST_LOADING_FAILURE,
-      payload: e.response,
+      payload: {
+        message: err.response.data,
+        status: err.response.status,
+      },
     });
+    yield put(push(`/error`));
   }
+
 }
 
 function* watchLoadingPost() {
@@ -170,12 +185,15 @@ function* postDetail(action) {
       payload: result.data,
     });
     yield put(push(`/post/${result.data._id}`));
-  } catch (e) {
+  } catch (err) {
     yield put({
       type: POST_DETAIL_FAILURE,
-      payload: e.response,
+      payload: {
+        message: err.response.data,
+        status: err.response.status,
+      },
     });
-    yield put(push("/"));
+    yield put(push(`/error`));
   }
 }
 
@@ -197,11 +215,15 @@ function* loadingCategory() {
       type: CATEGORY_LOADING_SUCCESS,
       payload: result.data,
     });
-  } catch (e) {
+  } catch (err) {
     yield put({
       type: CATEGORY_LOADING_FAILURE,
-      payload: e.response,
+      payload: {
+        message: err.response.data,
+        status: err.response.status,
+      },
     });
+    yield put(push(`/error`));
   }
 }
 
@@ -218,15 +240,18 @@ function* selectCategory(action) {
       type: CATEGORY_SELECT_SUCCESS,
       payload: action.payload.targetCategory,
     });
-  } catch (e) {
-    yield put({
-      type: CATEGORY_SELECT_FAILURE,
-      payload: e.response,
-    });
-  } finally {
     if (action.payload.path !== "/") {
       yield put(push("/"));
     }
+  } catch (err) {
+    yield put({
+      type: CATEGORY_SELECT_FAILURE,
+      payload: {
+        message: err.response.data,
+        status: err.response.status,
+      },
+    });
+    yield put(push(`/error`));
   }
 }
 
@@ -250,12 +275,15 @@ function* search(action) {
       payload: result.data,
     });
     yield put(push(`/search/${action.payload}`));
-  } catch (e) {
+  } catch (err) {
     yield put({
       type: SEARCH_FAILURE,
-      payload: e.response,
+      payload: {
+        message: err.response.data,
+        status: err.response.status,
+      },
     });
-    yield put(push("/"));
+    yield put(push(`/error`));
   }
 }
 
@@ -290,11 +318,15 @@ function* deletePost(action) {
     });
     alert('글 삭제를 완료 했습니다');
     yield put(push("/"));
-  } catch (e) {
+  } catch (err) {
     yield put({
       type: POST_DELETE_FAILURE,
-      payload: e.response,
+      payload: {
+        message: err.response.data,
+        status: err.response.status,
+      },
     });
+    yield put(push(`/error`));
   }
 }
 
@@ -327,12 +359,15 @@ function* editPost(action) {
       payload: result.data,
     });
     yield put(push(`/post/${result.data._id}`));
-  } catch (e) {
+  } catch (err) {
     yield put({
       type: POST_EDIT_FAILURE,
-      payload: e.response,
+      payload: {
+        message: err.response.data,
+        status: err.response.status,
+      },
     });
-    yield put(push("/"));
+    yield put(push(`/error`));
   }
 }
 
@@ -354,11 +389,15 @@ function* loadingMyPosts(action) {
       type:  MYPOSTS_LOADING_SUCCESS,
       payload: result.data,
     });
-  } catch (e) {
+  } catch (err) {
     yield put({
       type:  MYPOSTS_LOADING_FAILURE,
-      payload: e.response,
+      payload: {
+        message: err.response.data,
+        status: err.response.status,
+      },
     });
+    yield put(push(`/error`));
   }
 }
 

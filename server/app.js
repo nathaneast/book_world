@@ -46,11 +46,13 @@ app.use("/api/post", postRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/search", searchRoutes);
 
+app.use((req, res) => {                  
+  res.status(404).send('Sorry cant find that!');
+});
+
 // error handler
-app.use(function(err, req, res, next) {
-  console.log(err ,'error handler !')
-  console.error(err.stack);
-  // res.status(500).send('Something broke!');
+app.use((err, req, res, next) => {
+  res.status(500).send(err.message);
 });
 
 export default app;

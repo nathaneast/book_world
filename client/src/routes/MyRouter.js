@@ -12,6 +12,7 @@ import PostDetail from "./PostDetail";
 import PostEdit from "./PostEdit";
 import MyPosts from "./MyPosts";
 import Search from "./Search";
+import Error from "./Error";
 
 const MyRouter = () => (
   <>
@@ -26,6 +27,7 @@ const MyRouter = () => (
         <Route path="/post/:id/edit" exact component={PostEdit} />
         <Route path="/myPosts/:id" exact component={MyPosts} />
         <Route path="/search/:searchTerm" exact component={Search} />
+        <Route path="/error" exact component={Error} />
         <Redirect from="*" to="/" />
       </Switch>
     </Container>

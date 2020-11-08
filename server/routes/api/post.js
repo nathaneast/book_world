@@ -9,18 +9,20 @@ import Comment from "../../models/comment";
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
-  const postFindResult = await Post.find();
-  console.log("postFindResult", postFindResult);
-  res.json(postFindResult);
+router.get("/", async (req, res, next) => {
+  try {
+    const postFindResult = await Post.find();
+    console.log("postFindResult", postFindResult);
+    res.json(postFindResult);
+  } catch (err) {
+    next(err);
+  }
 });
 
 // 무한스크롤 페이지네이션 나중에 구현
 // 전체 이외 카테고리 최신순 정렬 구현
 router.get("/skip/:categoryName", async (req, res, next) => {
   try {
-    throw new Error('server loadingPost error ! ! !')
-
     const selectedCategory = req.params.categoryName;
     console.log(selectedCategory, "selectedCategory");
 
@@ -51,14 +53,12 @@ router.get("/skip/:categoryName", async (req, res, next) => {
       console.log(categoryPosts, "셀렉 이외 result");
       res.json(categoryPosts.posts);
     }
-  } catch (error) {
-    // console.log(e, 'loadingPost catch server catch');
-    next(error);
-    // console.error(e);
+  } catch (err) {
+    next(err);
   }
 });
 
-// router.get("/skip/:skip", async (req, res) => {
+// router.get("/skip/:skip", async (req, res, next) => {
 //   try {
 //     const postCount = await Post.countDocuments();
 //     const postFindResult = await Post.find()
@@ -67,13 +67,13 @@ router.get("/skip/:categoryName", async (req, res, next) => {
 //       .sort({ date: -1 });
 //     const result = { postCount, postFindResult };
 //     res.json(result);
-//   } catch (e) {
-//     console.error(e);
+//   } catch (err) {
+//     next(err);
 //     res.json({ msg: "더 이상 포스트가 없습니다" });
 //   }
 // });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.id)
       .populate("creator", "email name")
@@ -82,12 +82,12 @@ router.get("/:id", async (req, res) => {
     post.save();
     console.log(post, "post id");
     res.json(post);
-  } catch (e) {
-    console.error(e);
+  } catch (err) {
+    next(err);
   }
 });
 
-router.post("/", auth, async (req, res) => {
+router.post("/", auth, async (req, res, next) => {
   try {
     const {
       title,
@@ -149,12 +149,12 @@ router.post("/", auth, async (req, res) => {
     });
 
     return res.redirect(`/api/post/${newPost._id}`);
-  } catch (e) {
-    console.error(e);
+  } catch (err) {
+    next(err);
   }
 });
 
-router.delete("/:id", auth, async (req, res) => {
+router.delete("/:id", auth, async (req, res, next) => {
   try {
     await Post.deleteMany({ _id: req.params.id });
     await User.findByIdAndUpdate(req.user.id, {
@@ -174,12 +174,12 @@ router.delete("/:id", auth, async (req, res) => {
     }
 
     return res.json({ success: true });
-  } catch (e) {
-    console.error(e);
+  } catch (err) {
+   next(err);
   }
 });
 
-router.post("/:id/edit", auth, async (req, res) => {
+router.post("/:id/edit", auth, async (req, res, next) => {
   try {
     const { bookTitle, title, category, part, page, contents, id } = req.body;
 
@@ -226,12 +226,12 @@ router.post("/:id/edit", auth, async (req, res) => {
     }
 
     res.json(updatePost);
-  } catch (e) {
-    console.error(e);
+  } catch (err) {
+    next(err);
   }
 });
 
-router.get("/:id/comment", async (req, res) => {
+router.get("/:id/comment", async (req, res, next) => {
   try {
     console.log(req.params.id, 'GET comment')
     const postResult = await Post.findById(req.params.id)
@@ -240,12 +240,12 @@ router.get("/:id/comment", async (req, res) => {
     const result = postResult.comments;
     console.log('해당 글 코멘트 ', result);
     res.json(result);
-  } catch (e) {
-    console.error(e);
+  } catch (err) {
+    next(err);
   }
 });
 
-router.post("/:id/comment", async (req, res) => {
+router.post("/:id/comment", async (req, res, next) => {
   try {
     const {
       contents, postId, userId, userName
@@ -277,12 +277,12 @@ router.post("/:id/comment", async (req, res) => {
 
     console.log(newComment, "POST comment NewComment");
     res.json(newComment);
-  } catch (e) {
-    console.error(e);
+  } catch (err) {
+    next(err);
   }
 });
 
-router.get("/:id/myPosts", async (req, res) => {
+router.get("/:id/myPosts", async (req, res, next) => {
   try {
     const userPosts = await User.findById(req.params.id)
     .populate({
@@ -302,8 +302,8 @@ router.get("/:id/myPosts", async (req, res) => {
 
     console.log(userPosts, 'userPosts');
     res.json(userPosts.posts);
-  } catch (e) {
-    console.error(e);
+  } catch (err) {
+    next(err);
   }
 });
 
