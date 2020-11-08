@@ -133,6 +133,7 @@ const loadingPostAPI = (payload) => {
 
 function* loadingPost(action) {
   try {
+    // throw new Error('loadingPost error ! ! !')
     console.log(action.payload, "loadingPost");
     const result = yield call(loadingPostAPI, action.payload ? action.payload : "전체");
     console.log(result, "loadingPostAPI 결과 값");
@@ -141,6 +142,7 @@ function* loadingPost(action) {
       payload: result.data,
     });
   } catch (e) {
+    // console.log(e.stack, e.message, 'loadingPost catch');
     yield put({
       type: POST_LOADING_FAILURE,
       payload: e.response,

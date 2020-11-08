@@ -17,8 +17,10 @@ router.get("/", async (req, res) => {
 
 // 무한스크롤 페이지네이션 나중에 구현
 // 전체 이외 카테고리 최신순 정렬 구현
-router.get("/skip/:categoryName", async (req, res) => {
+router.get("/skip/:categoryName", async (req, res, next) => {
   try {
+    throw new Error('server loadingPost error ! ! !')
+
     const selectedCategory = req.params.categoryName;
     console.log(selectedCategory, "selectedCategory");
 
@@ -49,8 +51,10 @@ router.get("/skip/:categoryName", async (req, res) => {
       console.log(categoryPosts, "셀렉 이외 result");
       res.json(categoryPosts.posts);
     }
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    // console.log(e, 'loadingPost catch server catch');
+    next(error);
+    // console.error(e);
   }
 });
 
