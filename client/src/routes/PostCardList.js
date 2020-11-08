@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { POST_LOADING_REQUEST } from "../redux/types";
-import PostCardOne from "../components/PostCardOne";
+import PostCardOne from "../components/post/PostCardOne";
 
 const PostCardList = () => {
   const dispatch = useDispatch();

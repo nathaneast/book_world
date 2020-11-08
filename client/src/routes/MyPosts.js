@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Row } from "reactstrap";
-import PostCardOne from "../components/PostCardOne";
+import PostCardOne from "../components/post/PostCardOne";
 import { MYPOSTS_LOADING_REQUEST } from "../redux/types";
 
 const MyPosts = (req) => {

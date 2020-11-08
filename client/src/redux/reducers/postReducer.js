@@ -47,9 +47,8 @@ const initialState = {
   // title: "",
   searchTerm: "",
   searchResult: [],
-  searchBookTerm: "",
   searchBookResult: "",
-  selectedSearchBook: "",
+  selectedBook: "",
   myPosts: [],
 };
 
@@ -58,7 +57,8 @@ export default function (state = initialState, action) {
     case SEARCH_BOOK_REQUEST:
       return {
         ...state,
-        searchBookTerm: action.payload,
+        searchBookResult: [],
+        selectedBook: "",
         loading: true,
       };
     case SEARCH_BOOK_SUCCESS:
@@ -83,16 +83,15 @@ export default function (state = initialState, action) {
     case SELECT_BOOK_SUCCESS:
       return {
         ...state,
-        selectedSearchBook: action.payload,
+        selectedBook: action.payload,
         loading: false,
       };
       case POST_UPLOADING_REQUEST:
         return {
         ...state,
         loading: true,
-        searchBookTerm: "",
         searchBookResult: "",
-        selectedSearchBook: "",
+        selectedBook: "",
       };
     case POST_UPLOADING_SUCCESS:
       return {

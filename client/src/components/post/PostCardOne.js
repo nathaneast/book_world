@@ -9,18 +9,17 @@ import {
   Row,
 } from "reactstrap";
 
-import { POST_DETAIL_REQUEST } from "../redux/types";
-import { GrowingSpinner } from "./Spinner";
-
+import { POST_DETAIL_REQUEST } from "../../redux/types";
+import { GrowingSpinner } from "../Spinner";
 
 const PostCardOne = ({ posts, loading }) => {
   const dispatch = useDispatch();
 
   const onClick = (e) => {
-    const currentPostKey = Number(e.currentTarget.dataset.key);
+    const targetPostKey = Number(e.currentTarget.dataset.key);
     dispatch({
       type: POST_DETAIL_REQUEST,
-      payload: posts[currentPostKey]._id,
+      payload: posts[targetPostKey]._id,
     });
   };
 
@@ -47,7 +46,6 @@ const PostCardOne = ({ posts, loading }) => {
   
   const viewPosts = (posts.length ? postCards : <div>글이 없습니다.</div>);
 
-  // 로딩 넣어야함
   return (
     <Row>
       {loading ? GrowingSpinner : viewPosts}

@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Container, Row } from "reactstrap";
-import PostCardOne from "../components/PostCardOne";
+import PostCardOne from "../components/post/PostCardOne";
 
 const Search = () => {
   const { searchTerm, searchResult, loading } = useSelector((state) => state.post);

@@ -18,14 +18,11 @@ router.get("/:searchTerm", async (req, res) => {
     .populate("creator", "name email")
     .populate("category", "categoryName");
 
-    console.log(searchTerm, 'searchTerm');
-    console.log(searchResult,'searchResult');
-
     const response = {
       searchTerm,
       searchResult,
     }
-    res.json(response)
+    res.json(response);
   } catch (e) {
     console.error(e);
   }

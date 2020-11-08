@@ -33,11 +33,10 @@ const Category = () => {
     });
   };
 
-  // categoryResult true 값 따로 변수로 선언하면 동작 안함
   return (
     <Row className="m-1">
       {categoryResult
-        ? categoryResult.map((category, index) => (
+        && categoryResult.map((category, index) => (
             <div key={category} data-key={index} onClick={onClick}>
               <Button
                 color={selectedCategory === category ? "warning" : "info"}
@@ -46,7 +45,7 @@ const Category = () => {
               </Button>
             </div>
           ))
-        : ""}
+        }
     </Row>
   );
 };

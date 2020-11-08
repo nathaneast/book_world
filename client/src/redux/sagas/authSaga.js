@@ -50,9 +50,8 @@ function* watchLoginUser() {
 
 // Register
 
-const registerUserAPI = (req) => {
-  console.log(req, "req");
-  return axios.post("api/user", req);
+const registerUserAPI = (newUser) => {
+  return axios.post("api/user", newUser);
 };
 
 function* registerUser(action) {

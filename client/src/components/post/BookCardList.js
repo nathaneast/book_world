@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   ModalHeader,
   Modal,
@@ -9,17 +9,12 @@ import {
   CardTitle,
   Row,
 } from "reactstrap";
-import { SELECT_BOOK_REQUEST } from "../redux/types";
+import { SELECT_BOOK_REQUEST } from "../../redux/types";
 
 const BookCardList = ({ bookName, books, selectedBook }) => {
-  console.log(bookName, books, selectedBook, 'BookCardList')
   const [modal, setModal] = useState(false);
 
   const dispatch = useDispatch();
-
-  // const { searchBookTerm, searchBookResult, selectedSearchBook } = useSelector(
-  //   (state) => state.post
-  // );
 
   useEffect(() => {
     toggle();
@@ -30,10 +25,10 @@ const BookCardList = ({ bookName, books, selectedBook }) => {
   };
 
   const onClick = (e) => {
-    const currentBookKey = Number(e.currentTarget.dataset.key);
+    const targetBookKey = Number(e.currentTarget.dataset.key);
     dispatch({
       type: SELECT_BOOK_REQUEST,
-      payload: books[currentBookKey],
+      payload: books[targetBookKey],
     });
   };
 
@@ -49,14 +44,12 @@ const BookCardList = ({ bookName, books, selectedBook }) => {
     </Card>
   ));
 
-
-
   // 모달 꾸미기
   return (
     <Modal isOpen={modal} toggle={toggle} className="modal-lg">
       <ModalHeader>{bookName}</ModalHeader>
       <ModalBody>
-        <Row>{books ? viewBooks : <h1>책 없다</h1>}</Row>
+        <Row>{books ? viewBooks : <h1>검색된 책이 없습니다.</h1>}</Row>
       </ModalBody>
     </Modal>
   );

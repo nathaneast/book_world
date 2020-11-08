@@ -181,9 +181,9 @@ router.delete("/:id", auth, async (req, res, next) => {
 
 router.post("/:id/edit", auth, async (req, res, next) => {
   try {
-    const { bookTitle, title, category, part, page, contents, id } = req.body;
+    const { bookTitle, title, category, part, page, contents, postId } = req.body;
 
-    const beforePost = await Post.findById(id)
+    const beforePost = await Post.findById(postId)
     .populate("category", "categoryName");
 
     let editCategory = await Category.findOne({
@@ -196,7 +196,7 @@ router.post("/:id/edit", auth, async (req, res, next) => {
       });
     }
 
-    const updatePost = await Post.findByIdAndUpdate(id, {
+    const updatePost = await Post.findByIdAndUpdate(postId, {
       bookTitle,
       title,
       category: editCategory._id,
@@ -210,7 +210,7 @@ router.post("/:id/edit", auth, async (req, res, next) => {
     if (beforePost.category.categoryName !== updatePost.category.categoryName) {
       const CategoryUpdateResult = await Category.findByIdAndUpdate(
         beforePost.category._id,
-        { $pull: { posts: id } },
+        { $pull: { posts: postId } },
         { new: true }
       );
 
@@ -220,7 +220,7 @@ router.post("/:id/edit", auth, async (req, res, next) => {
 
       await Category.findByIdAndUpdate(editCategory._id, {
         $push: {
-          posts: id,
+          posts: postId,
         },
       });
     }

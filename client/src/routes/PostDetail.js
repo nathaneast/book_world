@@ -31,7 +31,6 @@ const PostDetail = () => {
   const dispatch = useDispatch();
 
   const onDeleteClick = () => {
-    console.log(postDetail._id, 'postDetail id')
     dispatch({
       type: POST_DELETE_REQUEST,
       payload: {
@@ -124,8 +123,9 @@ const PostDetail = () => {
     </Container>
   );
 
-  console.log(comments, "postDEtail comments");
+  console.log(comments, "postetail comments");
 
+  // body 컴포넌트 따로 분리 가능성 염두
   return (
     <>
     {loading ? GrowingSpinner : body }

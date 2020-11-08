@@ -1,7 +1,6 @@
 import express from "express";
 
 import Category from "../../models/category";
-// import Post from "../../models/post";
 
 const router = express.Router();
 
@@ -9,15 +8,12 @@ router.get("/", async (req, res) => {
   try {
     const categoryFindResult = await Category.find();
     let category = ["전체"];
-    // console.log(categoryFindResult, "categoryFindResult");
-
     if (categoryFindResult.length) {
       const categoryNames = categoryFindResult.map(
         (category) => category.categoryName
       );
-      category = category.concat(categoryNames);
+      category = [...category, ...categoryNames];
     }
-    // console.log("응답 전 카테고리", category);
     res.json(category);
   } catch (e) {
     console.error(e);

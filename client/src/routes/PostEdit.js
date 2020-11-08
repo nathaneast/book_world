@@ -28,6 +28,7 @@ const PostEdit = () => {
     authors,
     publisher,
     imageUrl,
+    _id: postId
   } = postDetail;
 
   const [form, setValues] = useState({
@@ -41,13 +42,6 @@ const PostEdit = () => {
 
   const dispatch = useDispatch();
 
-  const onChange = (e) => {
-    setValues({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
-  };
-
   const onSubmit = async (e) => {
     await e.preventDefault();
     const { bookTitle, title, category, part, page, contents } = form;
@@ -56,7 +50,6 @@ const PostEdit = () => {
       return;
     }
     const token = localStorage.getItem("token");
-    const id = postDetail._id;
     const body = {
       bookTitle,
       title,
@@ -65,11 +58,18 @@ const PostEdit = () => {
       page,
       contents,
       token,
-      id,
+      postId,
     };
     dispatch({
       type: POST_EDIT_REQUEST,
       payload: body,
+    });
+  };
+
+  const onChange = (e) => {
+    setValues({
+      ...form,
+      [e.target.name]: e.target.value,
     });
   };
 

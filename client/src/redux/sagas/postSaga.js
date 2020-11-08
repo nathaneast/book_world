@@ -41,15 +41,13 @@ import kakaoAPI from "../../kakaoAPI";
 // Search Book
 
 const searchBookAPI = (bookTitle) => {
-  console.log(bookTitle, "bookTitle");
   return kakaoAPI(bookTitle);
 };
 
 function* searchBook(action) {
   try {
-    console.log(action, "searchBookTitle");
     const result = yield call(searchBookAPI, action.payload);
-    console.log(result, "result");
+    console.log(result, "searchBook result");
     yield put({
       type: SEARCH_BOOK_SUCCESS,
       payload: result.data.documents,
@@ -265,7 +263,6 @@ const searchAPI = (payload) => {
 };
 
 function* search(action) {
-  console.log('search postSaga 실행');
   try {
     const result = yield call(searchAPI, action.payload);
     console.log(result, "search 결과 값");
@@ -346,7 +343,7 @@ const editPostAPI = (payload) => {
   if (token) {
     config.headers["x-auth-token"] = token;
   }
-  return axios.post(`api/post/${payload.id}/edit`, payload, config);
+  return axios.post(`api/post/${payload.postId}/edit`, payload, config);
 };
 
 function* editPost(action) {

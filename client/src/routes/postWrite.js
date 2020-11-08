@@ -13,7 +13,7 @@ import {
   CardImg,
 } from "reactstrap";
 
-import BookCardList from "../components/BookCardList";
+import BookCardList from "../components/post/BookCardList";
 import { GrowingSpinner } from "../components/Spinner";
 import { SEARCH_BOOK_REQUEST, POST_UPLOADING_REQUEST } from "../redux/types";
 
@@ -29,7 +29,7 @@ const PostWrite = () => {
 
   const dispatch = useDispatch();
 
-  const { searchBookResult, selectedSearchBook, loading } = useSelector(
+  const { searchBookResult, selectedBook, loading } = useSelector(
     (state) => state.post
   );
 
@@ -68,10 +68,10 @@ const PostWrite = () => {
       part,
       page,
       contents,
-      bookTitle: selectedSearchBook.title,
-      imageUrl: selectedSearchBook.thumbnail,
-      authors: selectedSearchBook.authors,
-      publisher: selectedSearchBook.publisher,
+      bookTitle: selectedBook.title,
+      imageUrl: selectedBook.thumbnail,
+      authors: selectedBook.authors,
+      publisher: selectedBook.publisher,
     };
     dispatch({
       type: POST_UPLOADING_REQUEST,
@@ -98,18 +98,18 @@ const PostWrite = () => {
   const postWriteForm = (
     <>
       <Card>
-        <CardTitle>{selectedSearchBook.title}</CardTitle>
+        <CardTitle>{selectedBook.title}</CardTitle>
         <CardImg
           alt="bookImg"
-          src={selectedSearchBook.thumbnail}
+          src={selectedBook.thumbnail}
           width="300px"
           height="400px"
         />
         <CardSubtitle>
-          {selectedSearchBook.authors}
-          {selectedSearchBook.publisher}
+          {selectedBook.authors}
+          {selectedBook.publisher}
         </CardSubtitle>
-        <CardText>{selectedSearchBook.contents}</CardText>
+        <CardText>{selectedBook.contents}</CardText>
       </Card>
       <Form onSubmit={postWriteSubmit}>
         <FormGroup>
@@ -161,15 +161,14 @@ const PostWrite = () => {
     </>
   );
 
-  console.log(form,searchBookResult,selectedSearchBook,'postWrite')
   return (
     <div>
-      {selectedSearchBook ? postWriteForm : searchBook}
+      {selectedBook ? postWriteForm : searchBook}
       {searchBookResult && (loading ? GrowingSpinner : (
         <BookCardList
           bookName={form.bookTitle}
           books={searchBookResult}
-          selectedBook={selectedSearchBook}
+          selectedBook={selectedBook}
         />
       ))}
     </div>
